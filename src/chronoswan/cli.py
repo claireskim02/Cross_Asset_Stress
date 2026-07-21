@@ -20,6 +20,7 @@ from chronoswan.data.synthetic import (
 )
 from chronoswan.events.labels import build_event_labels
 from chronoswan.experiments.bloomberg_quicklook import run_bloomberg_quicklook
+from chronoswan.experiments.literature_benchmarks import run_literature_benchmark_replication
 from chronoswan.experiments.registry import load_yaml
 from chronoswan.experiments.runner import run_synthetic_demo
 from chronoswan.validation.leakage_checks import audit_feature_matrix
@@ -186,6 +187,30 @@ def run_bloomberg_quicklook_command(
     typer.echo("\nCase studies:")
     typer.echo(result["case_studies"].round(3).to_string(index=False))
     typer.echo("\nHoldout model results:")
+    typer.echo(result["model_results"].round(4).to_string(index=False))
+    typer.echo(f"\nOutputs: {result['output_dir']}")
+
+
+@app.command("run-literature-benchmarks")
+def run_literature_benchmarks_command(
+    input_path: Annotated[Path, typer.Option(help="Manual Bloomberg workbook path.")] = Path(
+        "data/raw/Book1.xlsx"
+    ),
+    output_dir: Annotated[Path, typer.Option(help="Output directory for derived tables.")] = Path(
+        "data/processed"
+    ),
+) -> None:
+    """Run pre-LLM literature-inspired structured benchmarks."""
+
+    result = run_literature_benchmark_replication(input_path=input_path, output_dir=output_dir)
+    panel = result["panel"]
+    typer.echo(
+        f"Literature benchmark panel: {len(panel):,} rows, "
+        f"{panel['date'].min().date()} to {panel['date'].max().date()}"
+    )
+    typer.echo("\nConditional indicator lifts:")
+    typer.echo(result["conditional_rates"].round(4).to_string(index=False))
+    typer.echo("\nFeature-group holdout:")
     typer.echo(result["model_results"].round(4).to_string(index=False))
     typer.echo(f"\nOutputs: {result['output_dir']}")
 

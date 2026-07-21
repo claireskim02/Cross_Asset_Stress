@@ -14,6 +14,7 @@ Working notes:
 - [docs/leakage_protocol.md](docs/leakage_protocol.md)
 - [docs/finaeon_setup.md](docs/finaeon_setup.md)
 - [notebooks/00_research_runthrough.ipynb](notebooks/00_research_runthrough.ipynb)
+- [notebooks/07_literature_benchmark_replication.ipynb](notebooks/07_literature_benchmark_replication.ipynb)
 
 ## Research Questions
 
@@ -176,6 +177,7 @@ chronoswan audit-leakage
 chronoswan evaluate
 chronoswan run-experiment --config configs/base.yaml
 chronoswan run-bloomberg-quicklook --input-path data/raw/Book1.xlsx
+chronoswan run-literature-benchmarks --input-path data/raw/Book1.xlsx
 chronoswan finaeon login --env-file .env
 chronoswan finaeon search --search-string AAPL --search-type symbol --base-filter exactmatch
 chronoswan finaeon series --series-name AAPL --start-date 01/01/2019 --periodicity Daily
