@@ -1,0 +1,30 @@
+benchmarks:
+  - name: historical_unconditional_frequency
+    module: chronoswan.models.naive
+  - name: rolling_historical_frequency
+    module: chronoswan.models.naive
+  - name: regularized_logistic_regression
+    module: chronoswan.models.logistic
+    params:
+      class_weight: balanced
+      max_iter: 1000
+  - name: class_weighted_logistic_regression
+    module: chronoswan.models.logistic
+    params:
+      class_weight: balanced
+  - name: discrete_time_hazard
+    module: chronoswan.models.hazard
+    status: todo
+  - name: hidden_markov_or_regime_switching
+    module: chronoswan.models.regime
+    status: todo
+  - name: random_forest
+    module: chronoswan.models.tree
+    status: todo
+  - name: gradient_boosted_trees
+    module: chronoswan.models.tree
+    status: todo
+  - name: calibrated_ensemble
+    module: chronoswan.models.calibration
+    status: todo
+

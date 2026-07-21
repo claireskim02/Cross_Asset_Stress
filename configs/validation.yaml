@@ -1,0 +1,34 @@
+validation_methods:
+  chronological_holdout:
+    train_fraction: 0.70
+  expanding_window:
+    min_train_size: 756
+    test_size: 126
+    step_size: 126
+  rolling_window:
+    train_size: 1260
+    test_size: 126
+    step_size: 126
+  purged_time_series_cv:
+    n_splits: 5
+    purge_horizon_days: 20
+    embargo_days: 5
+  leave_one_crisis_out:
+    status: todo
+  regime_based_holdouts:
+    status: todo
+
+metrics:
+  primary:
+    - brier_score
+    - log_loss
+    - average_precision
+    - calibration_slope
+    - expected_calibration_error
+  secondary:
+    - roc_auc
+    - recall_at_fixed_false_positive_rate
+    - false_alarms_per_year
+    - event_level_detection_rate
+    - lead_time_before_onset
+

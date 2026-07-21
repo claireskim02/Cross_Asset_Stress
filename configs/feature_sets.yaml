@@ -1,0 +1,30 @@
+feature_sets:
+  market_core:
+    - spx_return
+    - realized_vol_20
+    - downside_semivariance_20
+    - max_drawdown_60
+  derivatives_core:
+    - vix_like
+    - skew_like
+    - put_call_like
+    - futures_basis_like
+  macro_credit_liquidity:
+    - credit_spread_like
+    - liquidity_stress_like
+  synthetic_leakage_diagnostics:
+    invalid_for_forecasting: true
+    features:
+      - leaked_forward_drawdown_20
+      - leaked_future_stress_flag
+
+metadata_required_for_each_feature:
+  - event_time
+  - observation_time
+  - release_time
+  - ingestion_time
+  - vintage
+  - source
+  - transformation_window
+  - earliest_valid_prediction_timestamp
+

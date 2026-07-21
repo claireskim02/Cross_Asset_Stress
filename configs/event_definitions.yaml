@@ -1,0 +1,29 @@
+forecast_horizons_days: [1, 5, 20, 60, 120]
+
+targets:
+  forward_drawdown:
+    thresholds: [0.05, 0.10, 0.15, 0.20]
+    definition: "Minimum forward close-to-close index return over horizon falls below threshold."
+  realized_volatility_regime:
+    quantiles: [0.95, 0.99]
+    definition: "Forward realized volatility enters a predeclared historical upper-tail regime."
+  vix_threshold:
+    thresholds: [25, 30, 35, 40, 50]
+    definition: "VIX-like or VIX series exceeds threshold within the forecast horizon."
+  joint_stress:
+    components:
+      - drawdown
+      - volatility
+      - liquidity
+      - credit
+    definition: "Composite event requiring multiple stress dimensions."
+  time_to_event:
+    definition: "Business days until next event onset, for survival or hazard modeling."
+
+event_states:
+  - onset
+  - continuation
+  - recovery
+  - calm
+  - insufficient_forward_window
+

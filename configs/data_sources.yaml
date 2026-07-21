@@ -1,0 +1,41 @@
+sources:
+  synthetic:
+    enabled: true
+    description: "Deterministic public scaffold dataset with known leakage traps."
+  public:
+    enabled: false
+    adapters:
+      - name: fred
+        status: todo
+      - name: cboe_public_indices
+        status: todo
+      - name: treasury
+        status: todo
+  proprietary:
+    enabled: false
+    adapters:
+      - name: bloomberg
+        status: todo
+        note: "Use local entitlements only. Do not commit raw data or credentials."
+      - name: finaeon
+        status: auth_scaffold
+        base_url_env: FINAEON_BASE_URL
+        username_env: FINAEON_USERNAME
+        password_env: FINAEON_PASSWORD
+        bearer_token_env: FINAEON_BEARER_TOKEN
+        note: "Login, /search, /series, generic POST, and legacy GET helpers are implemented. Define PIT field mapping before using data in research results."
+      - name: optionmetrics
+        status: todo
+      - name: cme
+        status: todo
+
+point_in_time_contract:
+  required_fields:
+    - event_time
+    - observation_time
+    - release_time
+    - ingestion_time
+    - vintage
+    - source
+    - transformation_window
+    - earliest_valid_prediction_timestamp
