@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChronoSwan Research Log</title>
+  <style>
+    :root {
+      --ink: #17202a;
+      --muted: #5b6472;
+      --line: #d9dee7;
+      --soft: #f5f7fa;
+      --panel: #ffffff;
+      --accent: #1f6f8b;
+      --accent-2: #7a4c13;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: #fbfcfd;
+      line-height: 1.55;
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 48px 22px 72px;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 28px;
+      margin-bottom: 34px;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 4.2rem);
+      line-height: 1.03;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 42px 0 12px;
+      font-size: 1.35rem;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 26px 0 8px;
+      font-size: 1.02rem;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0 0 14px;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .lead {
+      max-width: 860px;
+      margin-top: 18px;
+      font-size: 1.08rem;
+      color: #2d3642;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 22px 0 10px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 16px;
+      min-height: 104px;
+    }
+
+    .metric .value {
+      display: block;
+      font-size: 1.55rem;
+      font-weight: 760;
+      color: var(--ink);
+    }
+
+    .metric .label {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .section {
+      border-top: 1px solid var(--line);
+      padding-top: 28px;
+      margin-top: 34px;
+    }
+
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: var(--soft);
+      padding: 14px 16px;
+      margin: 18px 0;
+    }
+
+    .interpretation {
+      margin-top: -8px;
+      margin-bottom: 22px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 22px;
+      font-size: 0.92rem;
+      background: var(--panel);
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--line);
+      padding: 9px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef2f6;
+      font-weight: 720;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 0.93em;
+      background: #eef2f6;
+      padding: 0.1em 0.3em;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 20px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin: 7px 0;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      margin-top: 44px;
+      padding-top: 18px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 860px) {
+      .grid,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">ChronoSwan Research Log</p>
+      <h1>Point-in-time detection and attribution of large ES impulses.</h1>
+      <p class="lead">
+        ChronoSwan studies whether large 60-minute moves in ES1 can be decomposed into recurring cross-asset drivers. The current branch benchmarks event-conditioned correlations against PCA, then asks whether any structured signal remains useful for next-bar impulse risk.
+      </p>
+      <p class="note">
+        Raw Bloomberg/Finaeon files, parquet caches, and executed notebooks are kept local. This public page reports methodology, sanitized sample rows, and high-level local findings without publishing vendor data.
+      </p>
+    </header>
+
+    <section>
+      <h2>Abstract</h2>
+      <p>
+        The working hypothesis is that most intraday market moves are noisy, but the largest ES1 impulses are more structured. The research design defines a large move using a shifted rolling threshold known before the bar, then compares pairwise driver correlations with a PCA factor decomposition. PCA is useful only if it adds factor concentration or driver structure beyond the conditional-correlation benchmark.
+      </p>
+      <p>
+        This is not a black-swan prediction exercise. It is an attribution and stress-detection workflow that can later support an LLM agent for disciplined synthesis of market-driver evidence.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Current Local Run</h2>
+      <div class="grid">
+        <div class="metric">
+          <span class="value">21</span>
+          <span class="label">cross-asset instruments in the local Bloomberg workbook</span>
+        </div>
+        <div class="metric">
+          <span class="value">145</span>
+          <span class="label">large absolute ES1 impulses identified</span>
+        </div>
+        <div class="metric">
+          <span class="value">68.3%</span>
+          <span class="label">PC1 variance share during large ES moves</span>
+        </div>
+        <div class="metric">
+          <span class="value">92.7%</span>
+          <span class="label">median rolling PCA absorption during large moves</span>
+        </div>
+      </div>
+      <p class="note">
+        Local workbook window: approximately February 2026 through July 2026. The precise raw observations and full executed tables are local-only.
+      </p>
+      <p class="interpretation">
+        Interpretation: The current run is large enough for a method demonstration and small enough that it should not be framed as a long-history crisis study.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Data Shape</h2>
+      <p>
+        The raw workbook is loaded as a long OHLCV table, then pivoted into aligned return panels. The examples below are sanitized schema examples; the local executed notebook displays real five-row previews before each visualization.
+      </p>
+
+      <h3>Sanitized OHLCV Sample</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>timestamp</th>
+            <th>ticker</th>
+            <th>asset_class</th>
+            <th>open</th>
+            <th>high</th>
+            <th>low</th>
+            <th>close</th>
+            <th>volume</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>T+0000</td><td>ES1</td><td>equity_index_futures</td><td>100.00</td><td>100.18</td><td>99.92</td><td>100.12</td><td>28485</td></tr>
+          <tr><td>T+0001</td><td>ES1</td><td>equity_index_futures</td><td>100.12</td><td>100.44</td><td>99.98</td><td>100.42</td><td>23552</td></tr>
+          <tr><td>T+0002</td><td>NQ1</td><td>equity_index_futures</td><td>100.00</td><td>100.31</td><td>99.85</td><td>100.28</td><td>18256</td></tr>
+          <tr><td>T+0003</td><td>TY1</td><td>rates_futures</td><td>100.00</td><td>100.04</td><td>99.92</td><td>99.94</td><td>88177</td></tr>
+          <tr><td>T+0004</td><td>UX1</td><td>volatility_futures</td><td>100.00</td><td>101.61</td><td>99.45</td><td>99.62</td><td>2615</td></tr>
+        </tbody>
+      </table>
+      <p class="interpretation">
+        Interpretation: The long-form table is the raw-data contract after parsing. Real local samples appear in the executed notebook; this public sample is shape-only.
+      </p>
+
+      <h3>Sanitized Return/Event Sample</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>timestamp</th>
+            <th>ES1 return</th>
+            <th>NQ1 return</th>
+            <th>UX1 return</th>
+            <th>rolling threshold</th>
+            <th>large_abs</th>
+            <th>large_down</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>T+0460</td><td>-0.0021</td><td>-0.0027</td><td>0.0108</td><td>0.0046</td><td>false</td><td>false</td></tr>
+          <tr><td>T+0461</td><td>-0.0059</td><td>-0.0072</td><td>0.0214</td><td>0.0046</td><td>true</td><td>true</td></tr>
+          <tr><td>T+0462</td><td>0.0014</td><td>0.0017</td><td>-0.0049</td><td>0.0047</td><td>false</td><td>false</td></tr>
+          <tr><td>T+0463</td><td>0.0064</td><td>0.0071</td><td>-0.0188</td><td>0.0047</td><td>true</td><td>false</td></tr>
+          <tr><td>T+0464</td><td>-0.0008</td><td>-0.0010</td><td>0.0025</td><td>0.0048</td><td>false</td><td>false</td></tr>
+        </tbody>
+      </table>
+      <p class="interpretation">
+        Interpretation: The event labels are formed after returns are aligned and the rolling threshold is shifted. This is the point-in-time guardrail for the rest of the analysis.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Method</h2>
+      <div class="two-col">
+        <div>
+          <h3>Event Definition</h3>
+          <p>
+            A large ES impulse is the absolute 60-minute ES1 log return exceeding the shifted 95th percentile of absolute ES1 returns in the prior rolling 20-day window. The threshold is shifted by one bar to avoid look-ahead bias.
+          </p>
+        </div>
+        <div>
+          <h3>Benchmarks</h3>
+          <p>
+            The first benchmark is conditional correlation: if correlations on large ES moves already explain the driver story, PCA should be treated as compression rather than discovery. PCA is then fit on standardized cross-asset returns, excluding ES1.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Preliminary Findings</h2>
+      <div class="callout">
+        Large ES moves look meaningfully more factor-concentrated than the all-bar sample. This supports the research premise that the important impulses are less random than the full intraday stream.
+      </div>
+
+      <h3>Event Counts</h3>
+      <table>
+        <thead>
+          <tr><th>event</th><th>eligible bars</th><th>event count</th><th>event rate</th><th>mean absolute ES return</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>large_abs</td><td>2,662</td><td>145</td><td>5.45%</td><td>59.4 bp</td></tr>
+          <tr><td>large_down</td><td>2,662</td><td>74</td><td>2.78%</td><td>57.8 bp</td></tr>
+          <tr><td>large_up</td><td>2,662</td><td>71</td><td>2.67%</td><td>61.1 bp</td></tr>
+        </tbody>
+      </table>
+      <p class="interpretation">
+        Interpretation: The event definition produces enough observations for attribution, but downside-only and upside-only PCA samples are still sparse.
+      </p>
+
+      <h3>Large-Down Conditional Correlations</h3>
+      <table>
+        <thead>
+          <tr><th>driver</th><th>correlation with ES1</th><th>observations</th><th>interpretation</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>NQ1</td><td>+0.85</td><td>74</td><td>growth/equity beta remains dominant</td></tr>
+          <tr><td>UX1</td><td>-0.83</td><td>70</td><td>front VIX future rises when ES falls</td></tr>
+          <tr><td>UX2</td><td>-0.81</td><td>74</td><td>volatility curve confirms risk-off impulse</td></tr>
+          <tr><td>RTY1</td><td>+0.74</td><td>74</td><td>small-cap beta participates in equity impulse</td></tr>
+          <tr><td>CO1</td><td>-0.47</td><td>73</td><td>oil complex contributes to the risk-off basket in this window</td></tr>
+        </tbody>
+      </table>
+      <p class="interpretation">
+        Interpretation: Simple conditional correlation already identifies the main risk-off basket. PCA is judged against this table, not against a straw-man all-bar model.
+      </p>
+
+      <h3>PCA Readout</h3>
+      <table>
+        <thead>
+          <tr><th>sample</th><th>PC1 variance share</th><th>PC1 abs corr with ES</th><th>top positive loadings</th><th>top negative loadings</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>threshold-ready bars</td><td>49.8%</td><td>0.83</td><td>RTY1, NQ1, TY1</td><td>UX2, CL1, UX1</td></tr>
+          <tr><td>large absolute moves</td><td>68.3%</td><td>0.90</td><td>RTY1, EURUSD, NQ1</td><td>UX2, CL1, CO1</td></tr>
+          <tr><td>large downside moves</td><td>48.5%</td><td>0.73</td><td>TY1, RTY1, US1</td><td>CO1, CL1, UX2</td></tr>
+        </tbody>
+      </table>
+      <p class="interpretation">
+        Interpretation: PC1 becomes more dominant during large absolute ES moves. That makes PCA useful as a factor-concentration and communication layer.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Signal Screen</h2>
+      <p>
+        A chronological logistic screen was fit only as a diagnostic. The unweighted logistic model modestly improves ranking for next-bar large moves, but balanced class weighting produces poorly calibrated probabilities and should not be quoted as a forecast.
+      </p>
+      <table>
+        <thead>
+          <tr><th>target</th><th>model</th><th>test event rate</th><th>Brier</th><th>ROC AUC</th><th>average precision</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>next large down</td><td>train base rate</td><td>2.26%</td><td>0.0221</td><td>0.50</td><td>2.26%</td></tr>
+          <tr><td>next large down</td><td>unweighted logistic</td><td>2.26%</td><td>0.0221</td><td>0.64</td><td>7.63%</td></tr>
+          <tr><td>next large absolute</td><td>train base rate</td><td>4.64%</td><td>0.0444</td><td>0.50</td><td>4.64%</td></tr>
+          <tr><td>next large absolute</td><td>unweighted logistic</td><td>4.64%</td><td>0.0431</td><td>0.68</td><td>14.56%</td></tr>
+        </tbody>
+      </table>
+      <p class="interpretation">
+        Interpretation: The signal screen shows modest ranking value, especially for large absolute moves. Calibration remains the limiting issue, so these are research diagnostics rather than trading forecasts.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Literature Position</h2>
+      <p>
+        The underlying angle has precedent. Extreme-dependence studies, contagion/interdependence work, DCC models, spillover networks, and PCA absorption-ratio research all overlap with this problem. The narrower research contribution is the point-in-time ES impulse workflow and its direct benchmark against conditional correlations.
+      </p>
+      <ul>
+        <li>Longin and Solnik, extreme market correlations: <a href="https://doi.org/10.1111/0022-1082.00340">doi.org/10.1111/0022-1082.00340</a></li>
+        <li>Forbes and Rigobon, contagion versus interdependence: <a href="https://www.nber.org/papers/w7267">nber.org/papers/w7267</a></li>
+        <li>Engle, dynamic conditional correlation: <a href="https://doi.org/10.1198/073500102288618487">doi.org/10.1198/073500102288618487</a></li>
+        <li>Diebold and Yilmaz, spillovers: <a href="https://doi.org/10.1016/j.ijforecast.2012.08.006">doi.org/10.1016/j.ijforecast.2012.08.006</a></li>
+        <li>Kritzman, Li, Page, and Rigobon, PCA absorption ratio: <a href="https://doi.org/10.2469/faj.v67.n1.5">doi.org/10.2469/faj.v67.n1.5</a></li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Next Research Steps</h2>
+      <ul>
+        <li>Extend beyond the Bloomberg desktop intraday limit if a deeper licensed feed becomes available.</li>
+        <li>Compare event-conditioned PCA with DCC and spillover-network baselines.</li>
+        <li>Stabilize PCA by testing top-10%, top-20%, and weighted-PCA definitions, since top-5% windows can be sparse.</li>
+        <li>Add timestamp-aware macro/news annotations only after the structured market benchmark is frozen.</li>
+        <li>Use an open-weight local LLM only for driver synthesis and audit trails, not as an unconstrained prediction engine.</li>
+      </ul>
+    </section>
+
+    <footer>
+      Research repository: <a href="https://github.com/claireskim02/ChronoSwan">github.com/claireskim02/ChronoSwan</a>. Public page excludes raw vendor data and executed proprietary tables.
+    </footer>
+  </main>
+</body>
+</html>
