@@ -22,6 +22,8 @@ Use a mock agent as the default agent. It is free, local, deterministic, and sch
 
 Treat contaminated LLM runs as diagnostic upper bounds only.
 
+Add an intraday cross-asset branch around ES1 impulses. The immediate question is whether large 60-minute ES moves have recurring macro drivers that are visible through event-conditioned correlations or PCA. This branch is a structured benchmark before any LLM synthesis layer.
+
 ## Data Notes
 
 No external data is required for the current scaffold.
@@ -87,4 +89,4 @@ How should document archives be sourced so first-seen timestamps are defensible?
 
 ## Near-Term Next Step
 
-Run the synthetic notebook, inspect the leakage table, and decide the first real-data slice. A practical first slice is daily SPY or SPX proxy, VIX, VIX term structure if available, basic Treasury/credit proxies, and a small point-in-time document set.
+Run the intraday ES impulse notebook on the local Bloomberg workbook, inspect data coverage, compare conditional correlations with PCA factors, and decide whether the next data request should prioritize deeper intraday history or more macro instruments.

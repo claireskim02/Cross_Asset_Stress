@@ -105,3 +105,25 @@ Contaminated agent:
 
 - Purpose: estimate performance inflation from invalid future knowledge.
 - Current status: experiment condition specified; real LLM run pending.
+
+## 6. Intraday Impulse Dependence And PCA
+
+The intraday extension is related to several established literatures. Extreme-dependence work shows that correlations estimated during tails can differ from unconditional correlations. Contagion papers warn that crisis-period correlations mechanically rise with volatility, so an event-conditioned correlation table is useful but not self-authenticating. Dynamic conditional correlation and spillover models offer more formal baselines. PCA-based systemic-risk work uses concentration in principal components as a market fragility measure.
+
+Implication for ChronoSwan:
+
+PCA on large ES moves is not automatically novel. The research contribution should be framed as a disciplined workflow for point-in-time ES impulse attribution:
+
+- define large 60-minute ES moves by a rolling threshold known before the bar;
+- use conditional correlation as the first benchmark;
+- test whether event-conditioned PCA reveals stable cross-asset factors beyond pairwise correlation;
+- track rolling factor concentration and factor composition;
+- reserve LLMs for structured synthesis of market-driver evidence, not for unconstrained prediction.
+
+Sources:
+
+- Longin and Solnik, "Extreme Correlation of International Equity Markets": https://doi.org/10.1111/0022-1082.00340
+- Forbes and Rigobon, "No Contagion, Only Interdependence": https://www.nber.org/papers/w7267
+- Engle, "Dynamic Conditional Correlation": https://doi.org/10.1198/073500102288618487
+- Diebold and Yilmaz, "Better to Give than to Receive": https://doi.org/10.1016/j.ijforecast.2012.08.006
+- Kritzman, Li, Page, and Rigobon, "Principal Components as a Measure of Systemic Risk": https://doi.org/10.2469/faj.v67.n1.5

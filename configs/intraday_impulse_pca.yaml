@@ -1,0 +1,40 @@
+experiment_id: intraday_impulse_pca_v0
+description: >
+  Event-conditioned intraday ES1 research pass: define large 60-minute ES
+  impulses using a shifted rolling 20-day absolute-return threshold, compare
+  conditional correlations with PCA driver attribution, and run a small
+  chronological predictive screen.
+
+data:
+  source: manual_bloomberg_excel
+  input_path: data/17sheets.xlsx
+  raw_data_policy: local_only_not_committed
+  timestamp_policy: use_exported_timestamp_confirm_terminal_timezone
+
+event_definition:
+  reference_ticker: ES1
+  bar_interval: 60_minutes
+  rolling_window_days: 20
+  impulse_quantile: 0.95
+  threshold_shift: 1_bar
+  event_masks:
+    - large_abs
+    - large_down
+    - large_up
+
+analysis:
+  baseline: conditional_correlation
+  pca:
+    max_components: 5
+    absorption_components: 3
+  predictive_screen:
+    target:
+      - next_bar_large_down
+      - next_bar_large_abs
+    validation: chronological_70_30_holdout
+    status: diagnostic_only
+
+publication:
+  commit_raw_data: false
+  commit_executed_bloomberg_outputs: false
+  publish_methodology_on_github_pages: true

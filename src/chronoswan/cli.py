@@ -20,10 +20,10 @@ from chronoswan.data.synthetic import (
 )
 from chronoswan.events.labels import build_event_labels
 from chronoswan.experiments.bloomberg_quicklook import run_bloomberg_quicklook
+from chronoswan.experiments.intraday_impulse_pca import run_intraday_impulse_pca
 from chronoswan.experiments.literature_benchmarks import run_literature_benchmark_replication
 from chronoswan.experiments.registry import load_yaml
 from chronoswan.experiments.runner import run_synthetic_demo
-from chronoswan.validation.leakage_checks import audit_feature_matrix
 
 app = typer.Typer(help="ChronoSwan research CLI.", no_args_is_help=True)
 finaeon_app = typer.Typer(help="Finaeon API utilities.")
@@ -212,6 +212,63 @@ def run_literature_benchmarks_command(
     typer.echo(result["conditional_rates"].round(4).to_string(index=False))
     typer.echo("\nFeature-group holdout:")
     typer.echo(result["model_results"].round(4).to_string(index=False))
+    typer.echo(f"\nOutputs: {result['output_dir']}")
+
+
+@app.command("run-intraday-impulse-pca")
+def run_intraday_impulse_pca_command(
+    input_path: Annotated[Path, typer.Option(help="Manual Bloomberg intraday workbook path.")] = Path(
+        "data/17sheets.xlsx"
+    ),
+    output_dir: Annotated[Path, typer.Option(help="Output directory for derived tables.")] = Path(
+        "data/processed"
+    ),
+    reference_ticker: Annotated[str, typer.Option(help="Reference return series.")] = "ES1",
+    impulse_quantile: Annotated[
+        float,
+        typer.Option(help="Rolling absolute ES-return quantile used to define impulses."),
+    ] = 0.95,
+    rolling_window_days: Annotated[
+        int,
+        typer.Option(help="Approximate rolling window length in trading/calendar dates."),
+    ] = 20,
+) -> None:
+    """Run the intraday ES impulse correlation and PCA workflow."""
+
+    result = run_intraday_impulse_pca(
+        input_path=input_path,
+        output_dir=output_dir,
+        reference_ticker=reference_ticker,
+        impulse_quantile=impulse_quantile,
+        rolling_window_days=rolling_window_days,
+    )
+    coverage = result["coverage"]
+    event_summary = result["event_summary"]
+    correlations = result["conditional_correlations"]
+    pca_summary = result["pca_summary"]
+    predictive_results = result["predictive_results"]
+    typer.echo(
+        f"Intraday workbook: {coverage['ticker'].nunique():,} tickers, "
+        f"{result['return_panel'].index.min()} to {result['return_panel'].index.max()}"
+    )
+    typer.echo("\nES impulse event summary:")
+    typer.echo(event_summary.round(4).to_string(index=False))
+    typer.echo("\nTop large-down conditional correlations:")
+    typer.echo(
+        correlations.query("sample == 'large_down'")
+        .head(10)
+        .round(4)
+        .to_string(index=False)
+    )
+    typer.echo("\nConditional PCA summary:")
+    typer.echo(
+        pca_summary.query("status == 'fit'")
+        .head(12)
+        .round(4)
+        .to_string(index=False)
+    )
+    typer.echo("\nPredictive screen:")
+    typer.echo(predictive_results.round(4).to_string(index=False))
     typer.echo(f"\nOutputs: {result['output_dir']}")
 
 

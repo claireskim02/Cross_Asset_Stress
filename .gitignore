@@ -14,6 +14,11 @@ build/
 *.egg-info/
 
 # Data and generated artifacts stay local. Keep directory placeholders only.
+data/*.csv
+data/*.xlsx
+data/*.xls
+data/*.xlsm
+data/*.parquet
 data/raw/*
 data/interim/*
 data/processed/*
