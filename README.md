@@ -8,7 +8,8 @@ Public raw data is not included. Bloomberg/Finaeon workbooks, parquet caches, ex
 
 ## Current Research Page
 
-- Full public research page: [docs/index.html](docs/index.html)
+- Public chartbook: https://claireskim02.github.io/ChronoSwan/docs/
+- Source page: [docs/index.html](docs/index.html)
 - Intraday methodology note: [docs/intraday_impulse_pca.md](docs/intraday_impulse_pca.md)
 - Main notebook: [notebooks/08_intraday_impulse_pca.ipynb](notebooks/08_intraday_impulse_pca.ipynb)
 - Literature and benchmark map: [docs/literature_review.md](docs/literature_review.md)
