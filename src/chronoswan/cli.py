@@ -11,6 +11,16 @@ import typer
 
 from chronoswan.agents.forecaster import MockAgentForecaster, OllamaAgentForecaster
 from chronoswan.data.finaeon import FinaeonAPIError, FinaeonClient, FinaeonConfigError
+from chronoswan.data.futures_options import (
+    build_constant_tenor_ivm_features,
+    fetch_ar_ivm_universe,
+    summarize_ivm_pull,
+)
+from chronoswan.data.nasdaq_data_link import (
+    NASDAQ_DATA_LINK_CANDIDATES,
+    load_nasdaq_data_link_api_key,
+    probe_nasdaq_data_link_candidates,
+)
 from chronoswan.data.point_in_time import build_point_in_time_feature_matrix
 from chronoswan.data.synthetic import (
     CLEAN_FEATURES,
@@ -270,6 +280,82 @@ def run_intraday_impulse_pca_command(
     typer.echo("\nPredictive screen:")
     typer.echo(predictive_results.round(4).to_string(index=False))
     typer.echo(f"\nOutputs: {result['output_dir']}")
+
+
+@app.command("probe-nasdaq-data-link")
+def probe_nasdaq_data_link_command(
+    env_file: Annotated[Path, typer.Option(help="Env file containing NASDAQ_DATA_LINK_API_KEY.")] = Path(
+        ".env"
+    ),
+    output: Annotated[Path | None, typer.Option(help="Optional CSV output path.")] = None,
+    start_date: Annotated[str, typer.Option(help="Probe start date.")] = "2020-01-01",
+    end_date: Annotated[str, typer.Option(help="Probe end date.")] = "2020-01-10",
+) -> None:
+    """Probe candidate Nasdaq Data Link codes without exposing the API key."""
+
+    api_key = load_nasdaq_data_link_api_key(env_file)
+    records = probe_nasdaq_data_link_candidates(
+        NASDAQ_DATA_LINK_CANDIDATES,
+        api_key=api_key,
+        start_date=start_date,
+        end_date=end_date,
+    )
+    frame = pd.DataFrame(records)
+    display_columns = [
+        "research_ticker",
+        "dataset_code",
+        "status",
+        "http_status",
+        "rows",
+        "columns",
+        "message",
+    ]
+    typer.echo(frame[display_columns].to_string(index=False))
+    if output is not None:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        frame.to_csv(output, index=False)
+        typer.echo(f"\nWrote probe report: {output}")
+
+
+@app.command("pull-futures-options-ivm")
+def pull_futures_options_ivm_command(
+    env_file: Annotated[Path, typer.Option(help="Env file containing NASDAQ_DATA_LINK_API_KEY.")] = Path(
+        ".env"
+    ),
+    start_date: Annotated[str, typer.Option(help="Pull start date.")] = "2010-01-01",
+    end_date: Annotated[str | None, typer.Option(help="Optional pull end date.")] = None,
+    raw_output: Annotated[Path, typer.Option(help="Raw AR/IVM parquet output path.")] = Path(
+        "data/raw/ar_ivm_2010_current.parquet"
+    ),
+    feature_output: Annotated[Path, typer.Option(help="Constant-tenor feature parquet path.")] = Path(
+        "data/processed/ar_ivm_constant_tenor_features.parquet"
+    ),
+    summary_output: Annotated[Path, typer.Option(help="Coverage summary CSV path.")] = Path(
+        "data/processed/ar_ivm_coverage.csv"
+    ),
+) -> None:
+    """Pull Nasdaq AR/IVM futures-options implied-volatility data."""
+
+    api_key = load_nasdaq_data_link_api_key(env_file)
+    ivm = fetch_ar_ivm_universe(api_key=api_key, start_date=start_date, end_date=end_date)
+    features = build_constant_tenor_ivm_features(ivm)
+    summary = summarize_ivm_pull(ivm)
+
+    raw_output.parent.mkdir(parents=True, exist_ok=True)
+    feature_output.parent.mkdir(parents=True, exist_ok=True)
+    summary_output.parent.mkdir(parents=True, exist_ok=True)
+    ivm.to_parquet(raw_output, index=False)
+    features.to_parquet(feature_output)
+    summary.to_csv(summary_output, index=False)
+
+    typer.echo(
+        f"AR/IVM pull: {len(ivm):,} rows, {ivm['research_ticker'].nunique() if len(ivm) else 0} roots"
+    )
+    typer.echo("\nCoverage:")
+    typer.echo(summary.to_string(index=False))
+    typer.echo(f"\nRaw output: {raw_output}")
+    typer.echo(f"Feature output: {feature_output}")
+    typer.echo(f"Summary output: {summary_output}")
 
 
 @finaeon_app.command("login")
