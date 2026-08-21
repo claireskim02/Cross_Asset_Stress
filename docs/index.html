@@ -461,7 +461,7 @@
       </table>
       <div class="grid-2">
         <div class="chart">
-          <div class="chart-title">AR/IVM sensitivity, top rows by Sharpe</div>
+          <div class="chart-title">AR/IVM exploratory sensitivity, top rows by Sharpe</div>
           <div class="bar-row"><span>95th pct, cash</span><div class="bar-track"><span class="bar-fill green" style="width:100%"></span></div><span>1.13</span></div>
           <div class="bar-row"><span>95th pct, 25%</span><div class="bar-track"><span class="bar-fill green" style="width:94.8%"></span></div><span>1.07</span></div>
           <div class="bar-row"><span>95th pct, 50%</span><div class="bar-track"><span class="bar-fill green" style="width:86.8%"></span></div><span>0.98</span></div>
@@ -480,7 +480,7 @@
         </div>
       </div>
       <p class="read">
-        The simple AR/IVM overlay is a protection result, not a final trading strategy. The most interesting research lead is the high-conviction rule: in the 2020+ holdout, a pre-2020 95th-percentile stress threshold de-risks only 5.4% of days and materially improves Sharpe and drawdown.
+        The simple AR/IVM overlay is a protection result, not a final trading strategy. A validation guardrail shows that parameter selection is fragile: the reportable baseline is the reference 85th-percentile / 50%-exposure overlay, while the 95th-percentile cash rule is a research lead that needs a locked test.
       </p>
     </section>
 

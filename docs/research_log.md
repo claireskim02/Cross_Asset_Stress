@@ -30,7 +30,7 @@ PCA absorption is useful as a concentration diagnostic and communication layer. 
 
 VIX term structure remains the harder direct forecasting benchmark in the 2020+ holdout. The AR/IVM layer is more convincing as a stress state variable and exposure overlay input.
 
-The simple AR/IVM de-risking overlay improves holdout Sharpe and drawdown behavior versus SPX total return, while giving up little raw return in the baseline rule. A high-conviction sensitivity rule using the pre-2020 95th-percentile stress threshold is an interesting research lead, but it must be locked before further testing.
+The simple AR/IVM de-risking overlay improves holdout Sharpe and drawdown behavior versus SPX total return, while giving up little raw return in the baseline rule. A validation guardrail shows that parameter selection is fragile: the validation-selected rule does not dominate in the 2020+ test. A high-conviction sensitivity rule using the pre-2020 95th-percentile stress threshold is an interesting research lead, but it must be locked before further testing.
 
 Agriculture improves the macro interpretation set, especially for supply and inflation regimes. In the current equity drawdown tests, agricultural implied volatility is not a universal SPX crash warning.
 
