@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from chronoswan.validation.leakage_checks import audit_feature_matrix, find_suspicious_feature_names
+from cross_asset_stress.validation.leakage_checks import audit_feature_matrix, find_suspicious_feature_names
 
 
 def test_suspicious_feature_names_flag_forward_language() -> None:

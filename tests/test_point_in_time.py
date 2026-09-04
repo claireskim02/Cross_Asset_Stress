@@ -3,7 +3,7 @@ from __future__ import annotations
 import pandas as pd
 import pytest
 
-from chronoswan.data.point_in_time import (
+from cross_asset_stress.data.point_in_time import (
     FutureDataError,
     as_of_join,
     build_point_in_time_feature_matrix,

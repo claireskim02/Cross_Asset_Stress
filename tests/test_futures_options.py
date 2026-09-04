@@ -1,6 +1,6 @@
 import pandas as pd
 
-from chronoswan.data.futures_options import (
+from cross_asset_stress.data.futures_options import (
     build_constant_tenor_ivm_features,
     summarize_ivm_pull,
 )

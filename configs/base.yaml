@@ -1,6 +1,6 @@
 project:
-  name: chronoswan
-  title: "ChronoSwan: Point-in-Time Detection of Extreme Market Risk Using Derivatives, Historical Regimes, and Leakage-Aware LLM Agents"
+  name: cross_asset_stress
+  title: "Cross-Asset Stress Monitor: Point-in-Time Detection of Extreme Market Risk Using Derivatives, Historical Regimes, and Leakage-Aware LLM Agents"
   seed: 42
 
 paths:

@@ -1,6 +1,6 @@
 # Event Taxonomy
 
-ChronoSwan separates event definitions from model selection.
+Cross-Asset Stress Monitor separates event definitions from model selection.
 
 ## Event Families
 

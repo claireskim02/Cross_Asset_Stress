@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from chronoswan.validation.splits import chronological_split, purged_time_series_split
+from cross_asset_stress.validation.splits import chronological_split, purged_time_series_split
 
 
 def test_chronological_split_orders_indices() -> None:

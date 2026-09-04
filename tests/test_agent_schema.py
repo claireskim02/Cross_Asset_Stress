@@ -5,8 +5,8 @@ from datetime import datetime, timezone
 import pytest
 from pydantic import ValidationError
 
-from chronoswan.agents.forecaster import MockAgentForecaster
-from chronoswan.agents.schemas import AgentContextDocument, AgentForecast
+from cross_asset_stress.agents.forecaster import MockAgentForecaster
+from cross_asset_stress.agents.schemas import AgentContextDocument, AgentForecast
 
 
 def test_agent_forecast_schema_rejects_out_of_range_probability() -> None:

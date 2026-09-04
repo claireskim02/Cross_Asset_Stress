@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "chronoswan"
+name = "cross-asset-stress"
 version = "0.1.0"
-description = "Point-in-time research scaffold for extreme market-risk detection with leakage-aware LLM agents."
+description = "Point-in-time research scaffold for cross-asset stress monitoring and equity drawdown protection."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -28,10 +28,10 @@ dev = [
 ]
 
 [project.scripts]
-chronoswan = "chronoswan.cli:app"
+cross-asset-stress = "cross_asset_stress.cli:app"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/chronoswan"]
+packages = ["src/cross_asset_stress"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

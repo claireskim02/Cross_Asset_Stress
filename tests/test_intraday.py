@@ -3,13 +3,13 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from chronoswan.data.intraday import (
+from cross_asset_stress.data.intraday import (
     build_es_impulse_events,
     build_intraday_return_panel,
     canonical_intraday_ticker,
     load_bloomberg_intraday_workbook,
 )
-from chronoswan.experiments.intraday_impulse_pca import (
+from cross_asset_stress.experiments.intraday_impulse_pca import (
     build_conditional_correlation_table,
     run_conditional_pca_suite,
 )

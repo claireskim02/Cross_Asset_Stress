@@ -1,6 +1,6 @@
 # Leakage Protocol
 
-Leakage is a primary research object in ChronoSwan, not a footnote.
+Leakage is a primary research object in Cross-Asset Stress Monitor, not a footnote.
 
 ## Point-In-Time Rule
 
@@ -41,7 +41,7 @@ The synthetic data intentionally includes invalid features so the audit has some
 
 ## Validation Leakage Controls
 
-Do not use random train-test splits for valid claims.
+Do not use random train-test splits for valid time-series evidence.
 
 For a 20-day forward label, remove training rows whose forward outcome windows overlap a validation interval. Add an embargo after validation windows to reduce spillover from adjacent observations.
 
@@ -64,4 +64,3 @@ Valid LLM experiments require:
 - separate reporting of retrieval leakage and parametric-memory leakage.
 
 An unrestricted historical LLM result is not evidence of predictive ability.
-

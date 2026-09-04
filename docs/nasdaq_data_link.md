@@ -26,7 +26,7 @@ Do not commit `.env` or paste the key into notebooks, docs, or chat logs.
 Run:
 
 ```bash
-chronoswan probe-nasdaq-data-link \
+cross-asset-stress probe-nasdaq-data-link \
   --env-file .env \
   --output data/processed/nasdaq_data_link_probe.csv
 ```
@@ -43,7 +43,7 @@ The attached product uses the Nasdaq Data Link Tables API:
 Current first-stage pull uses `AR/IVM`:
 
 ```bash
-chronoswan pull-futures-options-ivm \
+cross-asset-stress pull-futures-options-ivm \
   --env-file .env \
   --start-date 2007-01-01 \
   --raw-output data/raw/ar_ivm_extended_2007_current.parquet \
@@ -68,7 +68,7 @@ The latest local expanded pull contains 2,979,966 raw `AR/IVM` rows and a 5,078 
 
 ## Candidate Dataset Codes
 
-Initial candidate codes are defined in `src/chronoswan/data/nasdaq_data_link.py`. They include possible CHRIS continuous-futures codes, EOD ETF codes, and a FRED VIX mirror. These are candidates, not guaranteed entitlements.
+Initial candidate codes are defined in `src/cross_asset_stress/data/nasdaq_data_link.py`. They include possible CHRIS continuous-futures codes, EOD ETF codes, and a FRED VIX mirror. These are candidates, not guaranteed entitlements.
 
 ## Current Access Note
 

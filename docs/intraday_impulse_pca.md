@@ -53,7 +53,7 @@ Predictive screen:
 
 ## Literature Position
 
-This angle has precedent, but the exact implementation can still be useful. Prior work covers extreme dependence, contagion/interdependence, dynamic conditional correlation, spillover networks, and PCA concentration as a systemic-risk indicator. The project should therefore avoid claiming that "PCA on stress periods" is novel by itself.
+This angle has precedent, but the exact implementation can still be useful. Prior work covers extreme dependence, contagion/interdependence, dynamic conditional correlation, spillover networks, and PCA concentration as a systemic-risk indicator. The novel object is the disciplined workflow, not the standalone idea of running PCA on stress periods.
 
 The defensible contribution is narrower:
 

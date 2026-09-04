@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from chronoswan.events.labels import build_event_labels, classify_event_phases, make_forward_drawdown_label
+from cross_asset_stress.events.labels import build_event_labels, classify_event_phases, make_forward_drawdown_label
 
 
 def test_forward_drawdown_label_detects_breach() -> None:

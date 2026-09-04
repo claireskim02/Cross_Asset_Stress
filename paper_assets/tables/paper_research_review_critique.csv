@@ -4,4 +4,4 @@ Signal construction,The stress score is an equal-weighted composite of z-scored 
 PCA,"PCA absorption is useful for concentration, but it is not causal attribution.","Compare against dynamic conditional correlation, spillover networks, and rolling factor-loading stability."
 Forecasting,VIX term structure remains the stronger direct event forecaster.,Frame AR/IVM as a state variable and test incremental value with fixed model classes and walk-forward validation.
 Backtest,"The protection rule is simple and interpretable, but the exploratory threshold grid can overfit.","Use train/validation/test splits, pre-specify the reference rule, and test realistic hedging instruments."
-Claims,"The evidence supports stress detection and drawdown control, not a fully optimized trading model.",State conclusions as protection-layer evidence and keep high-conviction threshold results as future pre-specified tests.
+Conclusion scope,"The evidence supports stress detection and drawdown control, not a fully optimized trading model.",State conclusions as protection-layer evidence and keep high-conviction threshold results as future pre-specified tests.

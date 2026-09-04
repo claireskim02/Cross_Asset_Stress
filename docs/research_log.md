@@ -16,7 +16,7 @@ The main empirical layer is the Nasdaq Data Link `AR/IVM` futures-options panel.
 
 The daily benchmark layer is a manually sourced Bloomberg workbook with SPX total return, VIX term structure, rates, credit, FX, commodities, and related stress indicators.
 
-The intraday case-study layer is the 140-day Bloomberg 60-minute workbook. It is used to demonstrate ES impulse attribution through conditional correlations and event-conditioned PCA, not to carry the full cross-regime claim.
+The intraday case-study layer is the 140-day Bloomberg 60-minute workbook. It is used to demonstrate ES impulse attribution through conditional correlations and event-conditioned PCA, not to carry the full cross-regime inference.
 
 No raw vendor data, parquet caches, executed notebooks, reports, credentials, or API keys are committed.
 
@@ -40,7 +40,7 @@ Use `AR/IVM` for the first serious cross-asset option-implied stress panel. `AR/
 
 Keep the daily VIX term-structure model as the main direct forecasting benchmark. The options layer must be judged as incremental information, not in isolation.
 
-Keep PCA in the workflow, but describe it as dimensionality reduction and stress concentration. Do not use PCA loadings alone to make causal macro-driver claims.
+Keep PCA in the workflow, but describe it as dimensionality reduction and stress concentration. Do not use PCA loadings alone for causal macro-driver attribution.
 
 Use the intraday ES impulse workflow as an attribution case study. The 140-day intraday history is too short for the paper's final regime validation.
 

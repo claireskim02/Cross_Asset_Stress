@@ -31,13 +31,13 @@ If terminal login is blocked but the web API console works, a short-lived bearer
 ## Test Login
 
 ```bash
-PYTHONPATH=src python -m chronoswan.cli finaeon login --env-file .env
+PYTHONPATH=src python -m cross_asset_stress.cli finaeon login --env-file .env
 ```
 
 By default the command reports token source and length, but does not print the token. To print it in a private terminal:
 
 ```bash
-PYTHONPATH=src python -m chronoswan.cli finaeon login --env-file .env --print-token
+PYTHONPATH=src python -m cross_asset_stress.cli finaeon login --env-file .env --print-token
 ```
 
 ## Generic POST Call
@@ -45,7 +45,7 @@ PYTHONPATH=src python -m chronoswan.cli finaeon login --env-file .env --print-to
 Use the OpenAPI page to choose the endpoint and exact JSON payload. Example shape:
 
 ```bash
-PYTHONPATH=src python -m chronoswan.cli finaeon post \
+PYTHONPATH=src python -m cross_asset_stress.cli finaeon post \
   --endpoint /search \
   --payload-json '{"searchString":"AAPL","searchType":"symbol","baseFilter":"exactmatch","page":"1","pageSize":"25"}' \
   --output data/raw/finaeon_search_aapl.json \
@@ -57,7 +57,7 @@ The command automatically adds the bearer token to the JSON body after `/login`,
 Convenience wrapper:
 
 ```bash
-PYTHONPATH=src python -m chronoswan.cli finaeon search \
+PYTHONPATH=src python -m cross_asset_stress.cli finaeon search \
   --search-string AAPL \
   --search-type symbol \
   --base-filter exactmatch \
@@ -70,7 +70,7 @@ PYTHONPATH=src python -m chronoswan.cli finaeon search \
 Example:
 
 ```bash
-PYTHONPATH=src python -m chronoswan.cli finaeon series \
+PYTHONPATH=src python -m cross_asset_stress.cli finaeon series \
   --series-name AAPL \
   --start-date 01/01/2019 \
   --end-date 12/31/2025 \
@@ -87,7 +87,7 @@ Trial access appears to cover full US stock history from 2019 onward and full hi
 The older endpoints authenticate with username/password query parameters. Use only for debugging or export compatibility, and avoid logging URLs because credentials are embedded in the query string.
 
 ```bash
-PYTHONPATH=src python -m chronoswan.cli finaeon legacy-get \
+PYTHONPATH=src python -m cross_asset_stress.cli finaeon legacy-get \
   --endpoint /api/search.ashx \
   --params-json '{"searchstring":"AAPL","searchtype":"symbol","searchfilter":"exactmatch","type":"csv"}' \
   --output data/raw/finaeon_legacy_search_aapl.csv \

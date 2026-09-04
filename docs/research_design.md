@@ -1,6 +1,6 @@
 # Research Design
 
-ChronoSwan asks whether cross-asset derivatives-market stress measures can improve equity drawdown-risk monitoring, and whether a leakage-controlled LLM layer can later add timestamp-valid narrative information.
+Cross-Asset Stress Monitor asks whether cross-asset derivatives-market stress measures can improve equity drawdown-risk monitoring, and whether a leakage-controlled LLM layer can later add timestamp-valid narrative information.
 
 ## Framing
 

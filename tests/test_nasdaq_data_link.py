@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from chronoswan.data.nasdaq_data_link import (
+from cross_asset_stress.data.nasdaq_data_link import (
     NasdaqDatasetCandidate,
     _sanitize_message,
     load_nasdaq_data_link_api_key,

@@ -1,6 +1,6 @@
 # Paper Assets
 
-Curated figures and tables for the short and full ChronoSwan paper drafts.
+Curated figures and tables for the short and full Cross-Asset Stress Monitor paper drafts.
 
 The full local execution archive remains in `reports/`. This folder keeps only the exhibits likely to be used in LaTeX drafts:
 

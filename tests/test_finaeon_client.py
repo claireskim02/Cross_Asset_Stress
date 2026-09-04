@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import os
 
-from chronoswan.data.finaeon import FinaeonClient, FinaeonCredentials, extract_bearer_token, load_env_file
+from cross_asset_stress.data.finaeon import FinaeonClient, FinaeonCredentials, extract_bearer_token, load_env_file
 
 
 def test_extract_bearer_token_from_json_field() -> None:
