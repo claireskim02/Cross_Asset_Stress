@@ -53,9 +53,9 @@ Predictive screen:
 
 ## Literature Position
 
-This angle has precedent, but the exact implementation can still be useful. Prior work covers extreme dependence, contagion/interdependence, dynamic conditional correlation, spillover networks, and PCA concentration as a systemic-risk indicator. The novel object is the disciplined workflow, not the standalone idea of running PCA on stress periods.
+This angle has precedent in work on extreme dependence, contagion/interdependence, dynamic conditional correlation, spillover networks, and PCA concentration as a systemic-risk indicator. The useful perspective in this note is to apply those ideas directly to large ES impulses, where the question is not whether PCA exists as a technique, but whether event-conditioned co-movement gives a cleaner picture of the cross-asset basket behind important equity moves.
 
-The defensible contribution is narrower:
+The intraday exercise focuses on:
 
 - event-conditioned PCA at the ES 60-minute impulse level;
 - direct comparison against simple conditional correlation;
