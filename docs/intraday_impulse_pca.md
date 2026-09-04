@@ -60,16 +60,15 @@ The defensible contribution is narrower:
 - event-conditioned PCA at the ES 60-minute impulse level;
 - direct comparison against simple conditional correlation;
 - rolling point-in-time thresholding rather than ex-post event selection;
-- driver-attribution tables designed for a discretionary macro/risk discussion;
-- optional LLM synthesis only after structured benchmarks are locked.
+- driver-attribution tables designed for a discretionary macro/risk discussion.
 
 Anchor references:
 
 - Longin and Solnik, "Extreme Correlation of International Equity Markets": https://doi.org/10.1111/0022-1082.00340
 - Forbes and Rigobon, "No Contagion, Only Interdependence": https://www.nber.org/papers/w7267
 - Engle, "Dynamic Conditional Correlation": https://doi.org/10.1198/073500102288618487
-- Diebold and Yilmaz, "Better to Give than to Receive": https://doi.org/10.1016/j.ijforecast.2012.08.006
-- Kritzman, Li, Page, and Rigobon, "Principal Components as a Measure of Systemic Risk": https://doi.org/10.2469/faj.v67.n1.5
+- Diebold and Yilmaz, "Better to Give than to Receive": https://doi.org/10.1016/j.ijforecast.2011.02.006
+- Kritzman, Li, Page, and Rigobon, "Principal Components as a Measure of Systemic Risk": https://doi.org/10.3905/jpm.2011.37.4.112
 
 ## Presentation Boundary
 

@@ -17,17 +17,6 @@ Every feature record must include:
 - transformation_window;
 - earliest_valid_prediction_timestamp.
 
-Documents must include:
-
-- original publication timestamp;
-- time zone;
-- first-seen timestamp;
-- source identifier;
-- document hash;
-- retrieval timestamp;
-- revision status;
-- earliest permissible prediction timestamp.
-
 ## Data Leakage Checks
 
 The first scaffold checks:
@@ -46,21 +35,3 @@ Do not use random train-test splits for valid time-series evidence.
 For a 20-day forward label, remove training rows whose forward outcome windows overlap a validation interval. Add an embargo after validation windows to reduce spillover from adjacent observations.
 
 All preprocessing, feature selection, scaling, calibration, hyperparameter tuning, and threshold selection must be fit inside each training fold.
-
-## LLM Leakage Controls
-
-Prompt instructions are necessary but insufficient.
-
-Valid LLM experiments require:
-
-- retrieval restricted by document availability timestamps;
-- full system and user prompt logging;
-- context document IDs and hashes;
-- removal of event names and post-event commentary in sanitized experiments;
-- placebo and shuffled-context experiments;
-- comparison of pre-event and post-event documents;
-- explicit contaminated-agent condition;
-- contamination-probe tasks;
-- separate reporting of retrieval leakage and parametric-memory leakage.
-
-An unrestricted historical LLM result is not evidence of predictive ability.

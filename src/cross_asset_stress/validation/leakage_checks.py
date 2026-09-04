@@ -1,4 +1,4 @@
-"""Leakage audits for feature matrices and agent context."""
+"""Leakage audits for point-in-time feature matrices."""
 
 from __future__ import annotations
 
@@ -159,4 +159,3 @@ def _default_feature_columns(frame: pd.DataFrame) -> list[str]:
         and not column.endswith("__available_at")
         and not column.startswith(excluded_prefixes)
     ]
-

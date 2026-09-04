@@ -1,6 +1,6 @@
 project:
   name: cross_asset_stress
-  title: "Cross-Asset Stress Monitor: Point-in-Time Detection of Extreme Market Risk Using Derivatives, Historical Regimes, and Leakage-Aware LLM Agents"
+  title: "Cross-Asset Stress Monitor: Cross-Asset Implied Stress and Equity Drawdown Protection"
   seed: 42
 
 paths:
@@ -31,9 +31,4 @@ validation:
 models:
   primary_benchmark: logistic_regression
   include_leaky_diagnostic: true
-
-agent:
-  provider: mock
-  model_id: mock-point-in-time-agent-v0
-  allowed_horizons_days: [1, 5, 20, 60, 120]
 

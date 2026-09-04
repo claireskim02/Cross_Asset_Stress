@@ -12,9 +12,4 @@ DEFAULT_ABLATIONS = {
         "features": "clean features plus deliberate synthetic leakage traps",
         "valid_forecast": False,
     },
-    "hybrid_mock_agent": {
-        "features": "clean structured features plus point-in-time text context",
-        "valid_forecast": True,
-    },
 }
-

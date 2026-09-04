@@ -1,83 +1,50 @@
 # Research Design
 
-Cross-Asset Stress Monitor asks whether cross-asset derivatives-market stress measures can improve equity drawdown-risk monitoring, and whether a leakage-controlled LLM layer can later add timestamp-valid narrative information.
+Cross-Asset Stress Monitor asks whether cross-asset derivatives-market stress measures improve equity drawdown-risk monitoring. The central object is a point-in-time stress layer built from futures-options implied volatility, skew, dispersion, PCA concentration, and benchmark equity-volatility indicators.
 
 ## Framing
 
-The project forecasts predefined stress events, not undefined extreme events. A valid forecast is a probability attached to a timestamp, horizon, event definition, and immutable information set.
+The project studies predefined stress events, not undefined extreme events. A valid signal is attached to a timestamp, horizon, event definition, and information set available at that timestamp.
 
-The practical use case is risk monitoring and research triage: convert heterogeneous market, options, credit, liquidity, macro, and document signals into a calibrated stress score with traceable evidence.
+The practical use case is portfolio protection. The research tests whether noisy daily and intraday moves can be filtered into a smaller set of states where equity drawdown risk is higher and cross-asset co-movement is more concentrated.
 
 ## Hypotheses
 
-H1: Options, futures, credit, liquidity, and macro variables improve stress-regime forecasts relative to historical base rates and price-only benchmarks.
+H1: Cross-asset option-implied stress features lift forward SPX drawdown event rates relative to unconditional base rates.
 
-H2: Point-in-time financial narratives add incremental information beyond structured derivatives variables.
+H2: Option-implied co-movement adds a useful risk layer beyond realized futures-return correlations because it captures priced uncertainty, skew, and convexity demand.
 
-H3: The measured incremental value of LLM agents falls after controlling for parametric look-ahead bias, recognizable historical events, revised data, and document timestamp leakage.
+H3: PCA concentration is useful as a stress-state diagnostic, but not sufficient for causal macro-driver attribution without dynamic dependence or spillover tests.
+
+H4: A simple shifted-signal de-risking overlay can improve drawdown and volatility behavior relative to SPX buy-and-hold, even if VIX term structure remains the stronger direct probability benchmark.
 
 ## Panels
 
-Panel 1 is the primary modern instrument-level study. It should use the longest consistent overlapping history for S&P spot or ETF proxies, futures, volatility indexes, option surfaces, rates, credit, liquidity, and macro series.
+Panel 1 is the primary daily empirical study. It uses the longest consistent AR/IVM futures-options history available locally, with daily benchmark indicators from Bloomberg.
 
-Panel 2 is a long-run historical regime extension. It can use reconstructed equity, bond, commodity, macro, banking-crisis, and political-event histories. It must not pretend modern listed options, VIX futures, or current credit indexes exist for 200-300 years.
+Panel 2 is the intraday ES impulse case study. It uses Bloomberg 60-minute bars to test the event-conditioned correlation and PCA workflow, but it is not treated as final cross-regime evidence because the available history is short.
+
+Panel 3 is the future implementation layer. It requires clean roll-adjusted continuous-futures returns and investable hedge instruments before the overlay can be evaluated as a deployable process.
 
 ## Benchmarks
 
 The benchmark ladder is:
 
 - unconditional historical frequency;
-- rolling historical frequency;
-- regularized logistic regression;
-- rare-event or class-weighted logistic regression;
-- discrete-time hazard model;
-- regime-switching model;
-- random forest;
-- gradient-boosted trees;
-- calibrated ensemble.
+- conditional event-rate lift;
+- VIX and VIX term-structure logistic models;
+- option-implied stress logistic model;
+- combined structured model;
+- de-risking overlay with shifted signals and transaction costs;
+- PCA absorption diagnostic;
+- event-conditioned intraday correlation and PCA case study;
+- external comparison against DCC, spillover-network, or related dynamic dependence models.
 
-The primary benchmark should remain interpretable and hard to overfit. Logistic regression and hazard models are the first serious candidates.
+## Deliverable Standard
 
-## Agent Conditions
+The research page should make four points clearly:
 
-The agent experiments should include:
-
-- structured-only benchmark;
-- text-only point-in-time agent;
-- deterministic structured-summary agent;
-- hybrid point-in-time agent;
-- sanitized-history agent;
-- placebo-context agent;
-- deliberately contaminated agent;
-- numeric-only anonymized agent.
-
-The contaminated agent is invalid for forecasting. Its job is to quantify how much performance can be inflated by unrestricted historical knowledge.
-
-## Literature Anchors
-
-Options-based tail-risk measurement is established. Cboe SKEW is explicitly tied to option-implied skewness of 30-day S&P 500 returns, and Kelly and Jiang connect tail-risk measures to asset prices and real activity.
-
-LLM finance forecasting is active, but historical backtests face look-ahead risk. Glasserman and Lin show that GPT-based sentiment experiments can be contaminated by later return knowledge. More recent work including Look-Ahead-Bench, DatedGPT, FinCAD, and broader finance-LLM bias reviews makes the leakage-controlled comparison itself a meaningful contribution.
-
-Useful starting points:
-
-- https://www.cboe.com/us/indices/dashboard/skew/
-- https://www.nber.org/papers/w19375
-- https://arxiv.org/abs/2309.17322
-- https://arxiv.org/abs/2601.13770
-- https://arxiv.org/abs/2603.11838
-- https://arxiv.org/abs/2605.24564
-- https://arxiv.org/abs/2602.14233
-
-## First-Pass Deliverable
-
-The first pass should prove that the system can:
-
-- generate synthetic point-in-time data;
-- construct labels before model selection;
-- expose a deliberate leakage trap;
-- show random split inflation;
-- run chronological and purged/embargoed validation;
-- produce benchmark probability tables;
-- enforce a strict agent schema;
-- record enough metadata to reproduce the experiment.
+- what data is used and what is excluded from the public repository;
+- how the stress score is constructed without look-ahead;
+- whether stress states raise forward drawdown event rates;
+- whether the overlay improves the portfolio path after signal delays and transaction costs.

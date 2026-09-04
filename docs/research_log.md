@@ -44,24 +44,6 @@ Keep PCA in the workflow, but describe it as dimensionality reduction and stress
 
 Use the intraday ES impulse workflow as an attribution case study. The 140-day intraday history is too short for the paper's final regime validation.
 
-Use mock and Ollama agent paths only after the structured market-data benchmark is frozen. LLMs should synthesize timestamp-valid context and audit driver narratives, not replace the market-data benchmark.
-
-## Agent Notes
-
-The default agent remains `MockAgentForecaster`. It makes no API calls and costs nothing.
-
-The optional Ollama route is the local open-weight path for future experiments. It does not solve look-ahead or contamination risk by itself; it only avoids paid API dependency and makes local model choice reproducible.
-
-Any valid agent result must store:
-
-- exact model identifier;
-- declared or inferred knowledge cutoff when available;
-- full prompt hash;
-- context document hashes;
-- evidence IDs;
-- contamination flags;
-- abstention state.
-
 ## Benchmark Notes
 
 Minimum benchmark ladder:
@@ -94,8 +76,6 @@ Can the high-conviction AR/IVM threshold survive a locked validation design, or 
 
 Does `AR/IVS` surface geometry add enough information beyond ATM, risk reversal, butterfly, and constant-tenor features to justify the additional dimensionality?
 
-What timestamp-valid macro/news archive can support an LLM synthesis layer without leaking future crisis narratives?
-
 ## Near-Term Next Step
 
-Freeze a small set of AR/IVM stress rules, add formal hedge-instrument tests, and compare PCA absorption against DCC or spillover-network benchmarks before adding an LLM narrative layer.
+Freeze a small set of AR/IVM stress rules, add formal hedge-instrument tests, and compare PCA absorption against DCC or spillover-network benchmarks.

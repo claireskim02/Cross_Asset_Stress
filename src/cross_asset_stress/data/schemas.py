@@ -1,10 +1,10 @@
-"""Pydantic schemas for point-in-time market and document records."""
+"""Pydantic schemas for point-in-time market records."""
 
 from __future__ import annotations
 
 from datetime import datetime
 from enum import Enum
-from typing import Annotated, Any
+from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -16,16 +16,6 @@ class SourceType(str, Enum):
     PUBLIC = "public"
     PROPRIETARY = "proprietary"
     DERIVED = "derived"
-    DOCUMENT = "document"
-
-
-class RevisionStatus(str, Enum):
-    """Revision status for records that may have multiple vintages."""
-
-    ORIGINAL = "original"
-    REVISED = "revised"
-    RESTATED = "restated"
-    UNKNOWN = "unknown"
 
 
 Probability = Annotated[float, Field(ge=0.0, le=1.0)]
@@ -73,35 +63,6 @@ class FeatureRecord(AvailabilityMetadata):
         return self
 
 
-class DocumentRecord(BaseModel):
-    """A timestamped document that can be supplied to an agent."""
-
-    model_config = ConfigDict(extra="forbid")
-
-    document_id: str
-    title: str
-    text: str
-    publication_timestamp: datetime
-    timezone: str
-    first_seen_timestamp: datetime
-    source_id: str
-    document_hash: str
-    retrieval_timestamp: datetime
-    revision_status: RevisionStatus = RevisionStatus.UNKNOWN
-    earliest_valid_prediction_timestamp: datetime
-    metadata: dict[str, Any] = Field(default_factory=dict)
-
-    @model_validator(mode="after")
-    def validate_document_availability(self) -> "DocumentRecord":
-        if self.first_seen_timestamp < self.publication_timestamp:
-            raise ValueError("first_seen_timestamp must be >= publication_timestamp")
-        if self.retrieval_timestamp < self.first_seen_timestamp:
-            raise ValueError("retrieval_timestamp must be >= first_seen_timestamp")
-        if self.earliest_valid_prediction_timestamp < self.first_seen_timestamp:
-            raise ValueError("earliest_valid_prediction_timestamp must be >= first_seen_timestamp")
-        return self
-
-
 class DataManifest(BaseModel):
     """Small manifest for reproducible local data snapshots."""
 
@@ -115,4 +76,3 @@ class DataManifest(BaseModel):
     content_hash: str
     description: str
     files: list[str] = Field(default_factory=list)
-

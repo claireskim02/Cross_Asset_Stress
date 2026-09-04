@@ -1,6 +1,6 @@
 """Literature-inspired structured benchmark replication.
 
-This module evaluates canonical stress indicators before any LLM agent is tested.
+This module evaluates canonical stress indicators against chronological holdouts.
 It is intentionally modest: the goal is a defensible baseline map, not a final
 trading model.
 """
@@ -112,7 +112,7 @@ def run_literature_benchmark_replication(
     holdout_start: str = "2020-01-01",
     purge_rows: int = 20,
 ) -> dict[str, Any]:
-    """Run the pre-LLM benchmark replication on a manual Bloomberg workbook."""
+    """Run the literature benchmark replication on a manual Bloomberg workbook."""
 
     panel = build_bloomberg_quicklook_panel(load_bloomberg_wide_xlsx(input_path))
     conditional_rates = build_conditional_indicator_table(panel)
@@ -314,4 +314,3 @@ def _score_probabilities(y_true: pd.Series, y_prob) -> dict[str, float]:
     metrics.update(calibration_slope_intercept(y_true, y_prob))
     metrics["expected_calibration_error"] = expected_calibration_error(y_true, y_prob)
     return metrics
-

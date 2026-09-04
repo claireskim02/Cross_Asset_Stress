@@ -290,7 +290,8 @@
         Option-implied cross-asset stress, event-conditioned PCA, and simple equity drawdown-protection overlays.
       </p>
       <div class="meta" aria-label="Project metadata">
-        <div class="label">Author</div><div>Claire Kim</div>
+        <div class="label">Author</div><div>Claire Kim - Low Tide Capital Management</div>
+        <div class="label">Date</div><div>August 25, 2026</div>
         <div class="label">Empirical scope</div><div>Daily AR/IVM option-implied features from 2007 onward, daily benchmark indicators from 2010 onward, and a 140-day intraday ES impulse case study.</div>
         <div class="label">Research notebook</div><div><code>notebooks/cross_asset_stress_monitor_paper.ipynb</code></div>
         <div class="label">Paper exhibits</div><div><code>paper_assets/figures</code>, <code>paper_assets/tables</code>, and this chartbook.</div>
@@ -313,6 +314,7 @@
         <li><a href="#pca">PCA and Intraday Evidence</a></li>
         <li><a href="#discussion">Discussion</a></li>
         <li><a href="#conclusion">Conclusion</a></li>
+        <li><a href="#references">References</a></li>
         <li><a href="#appendix">Appendix</a></li>
       </ol>
     </nav>
@@ -342,6 +344,9 @@
         <p>
           The practical question is whether a risk manager can ignore much of the ordinary daily and intraday noise and focus on market states where equity moves are more likely to be large, persistent, and cross-asset in nature. The proposed answer is a point-in-time stress monitor that conditions on large equity moves and cross-asset option-implied variables.
         </p>
+        <p>
+          This is an extension of the original cross-asset correlation idea. The paper measures co-movement in both realized futures returns and option-implied stress variables. Realized returns show how asset prices moved together; option-implied volatility and skew show how derivatives markets priced uncertainty, downside demand, and convexity across asset classes at the same point in time.
+        </p>
         <figure>
           <img src="assets/figures/paper_spxt_motivation_drawdown.png" alt="SPX total return drawdown history">
           <figcaption class="caption">
@@ -355,7 +360,10 @@
       <section id="literature">
         <h2>3. Literature Position</h2>
         <p>
-          The study sits next to established work on option-implied tail risk, changing correlations in stress periods, PCA concentration, dynamic conditional correlation, and spillover networks. The contribution is therefore not the individual use of PCA or implied volatility. The contribution is the workflow: a cross-asset option-implied stress panel, event-rate tests before strategy tests, chronological validation, and an LLM extension restricted to timestamp-valid narrative evidence.
+          The study sits next to established work on option-implied tail risk, changing correlations in stress periods, PCA concentration, dynamic conditional correlation, and spillover networks. Cboe's VIX and SKEW methodologies motivate option-implied volatility and skew as market-based measures of expected volatility and tail risk. Bollerslev, Tauchen, and Zhou (2009) and Kelly and Jiang (2014) connect option-implied and cross-sectional tail-risk measures to asset prices. Longin and Solnik (2001), Forbes and Rigobon (2002), Engle (2002), Diebold and Yilmaz (2012), and Kritzman, Li, Page, and Rigobon (2011) provide the benchmark frame for stress co-movement, dynamic dependence, spillovers, and PCA absorption.
+        </p>
+        <p>
+          The contribution is therefore not the individual use of PCA, implied volatility, or conditional correlation. The contribution is the workflow: a cross-asset option-implied stress panel, event-rate tests before strategy tests, chronological validation, and a simple protection overlay.
         </p>
         <table>
           <thead><tr><th>Area</th><th>Benchmark idea</th><th>Role in this project</th></tr></thead>
@@ -363,7 +371,7 @@
             <tr><td>Option-implied tail risk</td><td>Equity skew and volatility contain forward-looking risk information.</td><td>Use ATM vol, risk reversals, and butterflies as stress-state inputs.</td></tr>
             <tr><td>Cross-asset dependence</td><td>Correlations and factor structure change in stress periods.</td><td>Condition correlation and PCA analysis on large ES or SPX moves.</td></tr>
             <tr><td>Forecast evaluation</td><td>Rare-event models must be judged against base rates, calibration, and chronological holdouts.</td><td>Report event-rate lift, Brier score, average precision, ROC AUC, and sample-split strategy tests.</td></tr>
-            <tr><td>LLM financial forecasting</td><td>Historical language models can leak later crisis knowledge into backtests.</td><td>Keep LLMs out of the primary result until market-data benchmarks are frozen and contamination controls are explicit.</td></tr>
+            <tr><td>PCA absorption</td><td>A higher share of variance explained by common components can signal more concentrated market stress.</td><td>Use PCA as a concentration diagnostic, not as causal driver attribution.</td></tr>
           </tbody>
         </table>
       </section>
@@ -536,6 +544,9 @@
           The empirical results support the use of cross-asset option-implied stress as a drawdown-risk monitoring layer. The strongest evidence comes from direct stress measurement: equity-index implied volatility, ES downside skew, broad cross-asset volatility, and PCA concentration identify periods with higher forward SPX drawdown rates. The signal is less persuasive as a standalone daily probability forecast, where VIX term structure remains the stronger benchmark.
         </p>
         <p>
+          The options panel is not a detour from cross-asset correlation. It is a forward-looking version of the same co-movement question: when ES stress rises, do other asset classes also reprice volatility and skew in a way that signals a broader regime shift?
+        </p>
+        <p>
           The portfolio result follows naturally from that evidence. The reference AR/IVM overlay does not attempt to forecast every down day. It reduces exposure only in high-stress states and is evaluated as a left-tail protection rule. The central economic trade-off is lower volatility and smaller drawdowns in exchange for some opportunity cost during market rebounds.
         </p>
         <table>
@@ -569,11 +580,10 @@
             <tr><td>Implementation</td><td>Investable hedge set</td><td>Compares cash reduction with Treasury futures, SPX put spreads, VIX futures, and beta targeting under realistic transaction costs.</td></tr>
             <tr><td>Method</td><td>Dynamic dependence benchmark</td><td>Benchmarks PCA absorption against dynamic conditional correlation, spillover-network, and rolling factor-loading stability measures.</td></tr>
             <tr><td>Intraday</td><td>Longer 60-minute ES panel</td><td>Tests whether event-conditioned intraday driver maps are stable across crisis and non-crisis regimes rather than only the available 140-day sample.</td></tr>
-            <tr><td>Narrative</td><td>Timestamp-valid document synthesis</td><td>Tests whether news and macro context explain detected regimes once market-data signals are fixed, with document timestamps, prompt hashes, and contamination checks.</td></tr>
           </tbody>
         </table>
         <p>
-          These tests define the boundary between the reported evidence and a deployable hedge program. The evidence supports stress detection and drawdown protection; instrument choice, causal attribution, and narrative synthesis require the additional validation described above.
+          These tests define the boundary between the reported evidence and a deployable hedge program. The evidence supports stress detection and drawdown protection; instrument choice and causal attribution require the additional validation described above.
         </p>
       </section>
 
@@ -586,8 +596,23 @@
           The empirical relationships are consistent across the paper. ES implied-volatility shocks co-move most with NQ and RTY, but also pick up rates, yen, gold, FX, and selected commodity stress. Equity-index ATM implied volatility and ES downside-skew pressure raise forward SPX drawdown event rates. PCA absorption is useful as a stress-concentration diagnostic, while VIX term structure remains the tougher direct forecasting benchmark.
         </p>
         <p>
-          The useful application is not pure return forecasting. The evidence supports an auditable protection layer that connects option-implied stress, event-conditioned PCA, point-in-time validation, and portfolio drawdown control.
+          The useful application is not pure return forecasting. The evidence supports an auditable protection layer that connects realized co-movement, option-implied co-movement, PCA concentration, point-in-time validation, and portfolio drawdown control.
         </p>
+      </section>
+
+      <section id="references">
+        <h2>References</h2>
+        <ul>
+          <li>Bollerslev, T., Tauchen, G., and Zhou, H. (2009). <a href="https://doi.org/10.1093/rfs/hhp008">Expected Stock Returns and Variance Risk Premia</a>. <em>Review of Financial Studies</em>.</li>
+          <li>Cboe. <a href="https://cdn.cboe.com/resources/indices/Volatility_Index_Methodology_Cboe_Volatility_Index.pdf">Cboe Volatility Index Methodology</a>.</li>
+          <li>Cboe. <a href="https://cdn.cboe.com/resources/indices/documents/SKEWwhitepaperjan2011.pdf">The Cboe SKEW Index</a>.</li>
+          <li>Diebold, F. X., and Yilmaz, K. (2012). <a href="https://doi.org/10.1016/j.ijforecast.2011.02.006">Better to Give than to Receive: Predictive Directional Measurement of Volatility Spillovers</a>. <em>International Journal of Forecasting</em>.</li>
+          <li>Engle, R. F. (2002). <a href="https://doi.org/10.1198/073500102288618487">Dynamic Conditional Correlation: A Simple Class of Multivariate GARCH Models</a>. <em>Journal of Business and Economic Statistics</em>.</li>
+          <li>Forbes, K. J., and Rigobon, R. (2002). <a href="https://doi.org/10.1111/0022-1082.00494">No Contagion, Only Interdependence: Measuring Stock Market Comovements</a>. <em>Journal of Finance</em>.</li>
+          <li>Kelly, B., and Jiang, H. (2014). <a href="https://doi.org/10.1093/rfs/hhu039">Tail Risk and Asset Prices</a>. <em>Review of Financial Studies</em>.</li>
+          <li>Kritzman, M., Li, Y., Page, S., and Rigobon, R. (2011). <a href="https://doi.org/10.3905/jpm.2011.37.4.112">Principal Components as a Measure of Systemic Risk</a>. <em>Journal of Portfolio Management</em>.</li>
+          <li>Longin, F., and Solnik, B. (2001). <a href="https://doi.org/10.1111/0022-1082.00340">Extreme Correlation of International Equity Markets</a>. <em>Journal of Finance</em>.</li>
+        </ul>
       </section>
 
       <section id="appendix">

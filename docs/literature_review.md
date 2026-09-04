@@ -1,133 +1,64 @@
-# Literature Context And Benchmark Map
+# Literature Context and Benchmark Map
 
-This is a working literature note, not a complete review. Its purpose is to map prior work to benchmark requirements so Cross-Asset Stress Monitor does not mistake a useful engineering result for a novel empirical contribution.
+Cross-Asset Stress Monitor is an extension of the original cross-asset correlation question. The paper keeps the same core idea, but measures co-movement through two complementary channels: realized cross-asset futures-price moves and option-implied volatility/skew moves. The option-implied layer is useful because it reflects the price of uncertainty, convexity demand, and downside protection before the full realized move is observed.
 
 ## 1. Option-Implied Tail Risk
 
-The options literature motivates volatility, skew, downside tail probability, variance risk premium, and OTM put-demand features as priced measures of uncertainty. Cboe's SKEW methodology is a direct example of extracting tail-risk information from S&P 500 option prices. Kelly and Jiang estimate time-varying tail risk from the cross section of stock returns and connect tail risk to asset prices.
+The options literature motivates volatility, skew, downside tail probability, variance risk premium, and out-of-the-money put-demand measures as priced signals of market stress. Cboe's VIX methodology defines a model-free 30-day expected-volatility measure from SPX option prices, while SKEW is designed to summarize option-implied tail-risk information. Bollerslev, Tauchen, and Zhou connect variance risk premia to expected stock returns, and Kelly and Jiang show that time-varying tail risk is related to asset prices and macro conditions.
 
-Implication for Cross-Asset Stress Monitor:
+Role in this paper:
 
-The structured benchmark must include derivatives-implied risk variables. A text or LLM agent must improve on these, not merely restate that markets are stressed when VIX or skew is high.
+- Use ATM implied volatility as the cleanest cross-asset stress level.
+- Use ES risk reversals and butterflies as downside-skew and smile-convexity proxies.
+- Test whether top-decile option-implied stress states lift future SPX drawdown event rates.
 
-Current benchmark features:
+## 2. Cross-Asset Dependence in Stress States
 
-- VIX level and change;
-- VIX term structure or curve slope;
-- cross-asset ATM implied volatility;
-- risk reversals and downside-skew pressure;
-- butterflies as smile-convexity proxies;
-- option-implied PCA absorption;
-- group-level stress features for equity indices, rates, FX, energy, metals, and agriculture.
+Extreme-dependence work shows that correlations estimated in tail states can differ from unconditional correlations. Longin and Solnik find stronger correlation behavior in bear-market tails, while Forbes and Rigobon show why crisis-period correlation increases can be biased by volatility. The implication is direct: conditional correlation is a useful first benchmark, but it should not be interpreted as causal attribution by itself.
 
-Sources:
+Role in this paper:
 
-- Cboe SKEW white paper: https://cdn.cboe.com/resources/indices/documents/SKEWwhitepaperjan2011.pdf
-- Kelly and Jiang, "Tail Risk and Asset Prices": https://www.nber.org/papers/w19375
+- Compare selected-maturity futures-return correlations with 30-day ATM implied-volatility shock correlations.
+- Condition cross-asset correlation analysis on ES/SPX stress states.
+- Treat the result as stress co-movement and regime mapping, not proof of a single macro driver.
 
-## 2. Extreme Dependence And Contagion
+## 3. Dynamic Dependence and Spillovers
 
-Extreme-dependence work shows that correlations estimated in tail states can differ from unconditional correlations. Contagion work also warns that crisis-period correlations are mechanically affected by volatility, so a higher conditional correlation is not automatically a structural driver.
+Dynamic conditional correlation and spillover-network models are the formal benchmarks for time-varying dependence and directional transmission. Engle's DCC framework models changing correlations, while Diebold and Yilmaz use forecast-error variance decompositions to measure volatility spillovers across equities, bonds, FX, and commodities.
 
-Implication for Cross-Asset Stress Monitor:
+Role in this paper:
 
-Conditional correlation is the first benchmark for the ES impulse question. PCA must clarify concentration or factor composition beyond that simpler table. Driver language should remain cautious unless a formal lead-lag, spillover, or causal identification design is added.
+- Use static and event-conditioned correlations as the first empirical layer.
+- Reserve DCC and spillover-network tests as the natural external-validity benchmark for causal driver language.
 
-Current implementation:
+## 4. PCA Absorption and Stress Concentration
 
-- 60-minute ES impulse events use a shifted rolling threshold;
-- large-up, large-down, and large-absolute subsets are compared with threshold-ready observations;
-- PCA is reported beside conditional correlations, not instead of them.
+PCA-based systemic-risk work motivates monitoring how much cross-sectional variation is explained by a small number of common components. Kritzman, Li, Page, and Rigobon's absorption ratio is the closest benchmark for the paper's PCA concentration measure.
 
-Sources:
+Role in this paper:
 
-- Longin and Solnik, "Extreme Correlation of International Equity Markets": https://doi.org/10.1111/0022-1082.00340
-- Forbes and Rigobon, "No Contagion, Only Interdependence": https://www.nber.org/papers/w7267
+- Estimate rolling PCA absorption on cross-asset ATM implied-volatility changes.
+- Interpret high absorption as factor concentration, not as a standalone drawdown forecast.
+- Pair PCA with conditional correlations so the result remains economically interpretable.
 
-## 3. Dynamic Correlation And Spillovers
+## 5. Forecasting and Backtest Evaluation
 
-Dynamic conditional correlation and spillover-network models are formal baselines for time-varying dependence. They are stronger benchmarks than a static correlation table when the research question becomes directional risk transmission.
+The forecasting design follows a simple rare-event validation standard: compare every model to unconditional event rates, judge probability models by calibration and ranking metrics, and test strategies chronologically with shifted signals and transaction costs. VIX term structure remains the primary direct forecasting benchmark because it is a known, liquid, option-implied measure of equity volatility risk.
 
-Implication for Cross-Asset Stress Monitor:
+Role in this paper:
 
-The current paper supports the narrower inference that stress states are associated with changing cross-asset dependence. Directional causality requires a later comparison against DCC or Diebold-Yilmaz connectedness measures.
+- Report conditional event-rate lift before strategy testing.
+- Compare VIX term-structure, option-implied stress, and combined structured models in a 2020+ holdout.
+- Evaluate the AR/IVM rule as a protection overlay, not as a full return-forecasting model.
 
-Sources:
+## References
 
-- Engle, "Dynamic Conditional Correlation": https://doi.org/10.1198/073500102288618487
-- Diebold and Yilmaz, "Better to Give than to Receive": https://doi.org/10.1016/j.ijforecast.2011.02.006
-
-## 4. PCA Absorption And Systemic Risk
-
-PCA-based systemic-risk work motivates monitoring the share of variance explained by a small number of components. A high absorption ratio can indicate that markets are moving under a more common factor, which is a useful stress-concentration concept.
-
-Implication for Cross-Asset Stress Monitor:
-
-PCA is not the novel object by itself. The useful object is the point-in-time cross-asset stress workflow: build option-implied features, estimate concentration, test event-rate lift, and evaluate an exposure overlay with shifted signals.
-
-Current implementation:
-
-- rolling first-three-PC absorption for 30d ATM implied-volatility changes;
-- rolling first-three-PC absorption for selected-maturity futures returns;
-- intraday event-conditioned PC1 summaries for large ES impulse subsets.
-
-Source:
-
-- Kritzman, Li, Page, and Rigobon, "Principal Components as a Measure of Systemic Risk": https://doi.org/10.3905/jpm.2011.37.4.112
-
-## 5. Stress-Regime Forecasting
-
-Stress-regime forecasting with logistic models, regime models, tree models, and boosted classifiers is not novel by itself. The relevant standard is calibrated probability forecasting under time-series validation, not raw accuracy or a backtest tuned after the fact.
-
-Implication for Cross-Asset Stress Monitor:
-
-The benchmark must remain chronological and hard to beat. VIX term structure is the main direct forecasting hurdle. The option-implied layer should be evaluated both as a probability input and as a risk-control state variable.
-
-Current metrics:
-
-- Brier score;
-- log loss;
-- average precision;
-- ROC AUC;
-- conditional event-rate lift;
-- cumulative return;
-- annualized return and volatility;
-- zero-risk-free-rate Sharpe;
-- max drawdown;
-- worst single day;
-- turnover and mean exposure.
-
-## 6. LLM Look-Ahead Bias
-
-LLM finance experiments are highly sensitive to look-ahead and contamination. Glasserman and Lin study bias in GPT-based sentiment backtests and show why model knowledge and text identity can distort historical evaluation.
-
-Implication for Cross-Asset Stress Monitor:
-
-The agent layer should be added only after the market-data benchmark is locked. Its job should be timestamp-valid synthesis and evidence auditing, not unconstrained prediction.
-
-Agent records must store:
-
-- exact model identifier;
-- declared or inferred knowledge cutoff when available;
-- full prompt hash;
-- context document hashes;
-- evidence IDs;
-- contamination flags;
-- abstention state.
-
-Source:
-
-- Glasserman and Lin, "Assessing Look-Ahead Bias in Stock Return Predictions Generated By GPT Sentiment Analysis": https://arxiv.org/abs/2309.17322
-
-## 7. Current Contribution Statement
-
-The current Cross-Asset Stress Monitor contribution is a disciplined research pipeline:
-
-- build a long-history cross-asset futures-options stress panel;
-- benchmark it against VIX term structure and SPX total return;
-- use conditional event-rate lift before strategy design;
-- use PCA as concentration measurement rather than causal proof;
-- preserve an intraday ES impulse workflow for attribution;
-- reserve agentic synthesis for a later contamination-controlled stage.
-
-The strongest current empirical result is that cross-asset option-implied stress is useful for regime measurement and drawdown control. The paper does not yet support a general rare-event forecasting breakthrough.
+- Bollerslev, T., Tauchen, G., and Zhou, H. (2009). "Expected Stock Returns and Variance Risk Premia." Review of Financial Studies. https://doi.org/10.1093/rfs/hhp008
+- Cboe. "Cboe Volatility Index Methodology." https://cdn.cboe.com/resources/indices/Volatility_Index_Methodology_Cboe_Volatility_Index.pdf
+- Cboe. "The Cboe SKEW Index." https://cdn.cboe.com/resources/indices/documents/SKEWwhitepaperjan2011.pdf
+- Diebold, F. X., and Yilmaz, K. (2012). "Better to Give than to Receive: Predictive Directional Measurement of Volatility Spillovers." International Journal of Forecasting. https://doi.org/10.1016/j.ijforecast.2011.02.006
+- Engle, R. F. (2002). "Dynamic Conditional Correlation: A Simple Class of Multivariate GARCH Models." Journal of Business and Economic Statistics. https://doi.org/10.1198/073500102288618487
+- Forbes, K. J., and Rigobon, R. (2002). "No Contagion, Only Interdependence: Measuring Stock Market Comovements." Journal of Finance. https://doi.org/10.1111/0022-1082.00494
+- Kelly, B., and Jiang, H. (2014). "Tail Risk and Asset Prices." Review of Financial Studies. https://doi.org/10.1093/rfs/hhu039
+- Kritzman, M., Li, Y., Page, S., and Rigobon, R. (2011). "Principal Components as a Measure of Systemic Risk." Journal of Portfolio Management. https://doi.org/10.3905/jpm.2011.37.4.112
+- Longin, F., and Solnik, B. (2001). "Extreme Correlation of International Equity Markets." Journal of Finance. https://doi.org/10.1111/0022-1082.00340

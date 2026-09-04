@@ -1,4 +1,4 @@
-"""End-to-end synthetic demonstration runner."""
+"""End-to-end synthetic structured-benchmark runner."""
 
 from __future__ import annotations
 
@@ -9,9 +9,6 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from cross_asset_stress.agents.audit import audit_agent_forecast
-from cross_asset_stress.agents.forecaster import MockAgentForecaster
-from cross_asset_stress.agents.prompts import SYSTEM_PROMPT
 from cross_asset_stress.data.synthetic import CLEAN_FEATURES, LEAKED_FEATURES, generate_synthetic_market_frame
 from cross_asset_stress.events.labels import build_event_labels
 from cross_asset_stress.experiments.registry import (
@@ -180,21 +177,6 @@ def run_synthetic_demo(
         feature_cols=feature_cols_leaky,
     )
 
-    last_row = modeling.iloc[-60]
-    agent = MockAgentForecaster()
-    forecast = agent.forecast(
-        as_of_timestamp=last_row["forecast_timestamp"].to_pydatetime(),
-        forecast_horizon_days=int(cfg.get("target", {}).get("horizon_days", 20)),  # type: ignore[arg-type]
-        structured_features={feature: float(last_row[feature]) for feature in feature_cols_clean},
-        documents=[],
-    )
-    agent_audit = audit_agent_forecast(
-        forecast,
-        context=[],
-        prompt=SYSTEM_PROMPT,
-        model_id=agent.model_id,
-    )
-
     config_hash = stable_config_hash(cfg)
     record = ExperimentRecord(
         experiment_id=make_experiment_id("synthetic-demo", config_hash),
@@ -216,7 +198,7 @@ def run_synthetic_demo(
             for row in rows
             if isinstance(row.get("brier_score"), float)
         },
-        contamination_flags=[
+        leakage_flags=[
             finding.column or finding.check
             for finding in leakage_findings
             if finding.severity in {"critical", "high"}
@@ -227,7 +209,6 @@ def run_synthetic_demo(
         "dataset": modeling,
         "metrics": metrics,
         "leakage_findings": leakage_findings,
-        "agent_audit": agent_audit,
         "experiment_record": record,
     }
 
@@ -254,4 +235,3 @@ def _finding_to_dict(finding: LeakageFinding) -> dict[str, str | None]:
         "column": finding.column,
         "message": finding.message,
     }
-

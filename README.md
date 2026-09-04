@@ -1,5 +1,8 @@
 # Cross-Asset Stress Monitor
 
+Claire Kim - Low Tide Capital Management
+August 25, 2026
+
 Cross-Asset Stress Monitor is a point-in-time empirical study of cross-asset stress detection and equity drawdown protection. The paper tests whether cross-asset futures-options implied volatility, skew, and PCA concentration can identify stress regimes early enough to improve a simple S&P 500 exposure rule.
 
 The project is framed as quantitative research on predefined stress regimes rather than open-ended extreme-event prediction. The empirical pipeline benchmarks VIX term structure, cross-asset option-implied stress, conditional event-rate lift, PCA absorption, and a 2020+ chronological holdout backtest. The intraday ES impulse workflow remains a case study for attributing large 60-minute moves after a stress regime has been detected.
@@ -36,4 +39,4 @@ The executed local research report is written to `reports/cross_asset_stress_mon
 
 ## Research Boundary
 
-The current evidence is limited to reproducible, point-in-time event definitions and benchmark comparisons. LLM agents are treated as future incremental information processors, not as unrestricted hindsight engines. Any agent result must record model identity, prompt/context hashes, data timestamps, and contamination controls before it can be compared with the structured market-data benchmarks.
+The current evidence is limited to reproducible, point-in-time event definitions, cross-asset co-movement tests, event-rate lift, PCA concentration diagnostics, and chronological benchmark comparisons. The paper does not claim causal macro attribution or a production hedge program without additional realized-futures, intraday, and instrument-level validation.

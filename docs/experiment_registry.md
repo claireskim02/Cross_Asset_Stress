@@ -18,13 +18,8 @@ No committed empirical result should be treated as real-market evidence yet. The
 - train and test dates;
 - purge and embargo settings;
 - model and version;
-- LLM provider and exact model identifier;
-- declared model knowledge cutoff, if available;
-- full prompts;
-- context document IDs and hashes;
 - random seed;
 - metrics;
 - calibration results;
-- runtime and token usage;
-- contamination flags.
-
+- runtime;
+- leakage flags.

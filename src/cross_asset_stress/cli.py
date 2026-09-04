@@ -9,7 +9,6 @@ from typing import Annotated
 import pandas as pd
 import typer
 
-from cross_asset_stress.agents.forecaster import MockAgentForecaster, OllamaAgentForecaster
 from cross_asset_stress.data.finaeon import FinaeonAPIError, FinaeonClient, FinaeonConfigError
 from cross_asset_stress.data.futures_options import (
     build_constant_tenor_ivm_features,
@@ -121,28 +120,6 @@ def run_baselines() -> None:
     typer.echo(result["metrics"].to_string(index=False))
 
 
-@app.command("run-agent")
-def run_agent(
-    provider: Annotated[str, typer.Option(help="Agent provider: mock or ollama.")] = "mock",
-    model: Annotated[str | None, typer.Option(help="Local model ID for Ollama.")] = None,
-) -> None:
-    """Run a point-in-time agent on a synthetic observation."""
-
-    market = generate_synthetic_market_frame()
-    row = market.iloc[-60]
-    if provider == "mock":
-        agent = MockAgentForecaster()
-    elif provider == "ollama":
-        agent = OllamaAgentForecaster(model_id=model)
-    else:
-        raise typer.BadParameter("provider must be 'mock' or 'ollama'")
-    forecast = agent.forecast(
-        as_of_timestamp=row["forecast_timestamp"].to_pydatetime(),
-        structured_features={feature: float(row[feature]) for feature in CLEAN_FEATURES},
-    )
-    typer.echo(forecast.model_dump_json(indent=2))
-
-
 @app.command("audit-leakage")
 def audit_leakage() -> None:
     """Run leakage checks against the synthetic demo matrix."""
@@ -210,7 +187,7 @@ def run_literature_benchmarks_command(
         "data/processed"
     ),
 ) -> None:
-    """Run pre-LLM literature-inspired structured benchmarks."""
+    """Run literature-inspired structured benchmarks."""
 
     result = run_literature_benchmark_replication(input_path=input_path, output_dir=output_dir)
     panel = result["panel"]

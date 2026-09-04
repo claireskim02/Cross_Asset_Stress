@@ -3,4 +3,3 @@ Data,Roll-adjusted continuous futures returns,Tests realized cross-asset co-move
 Implementation,Investable hedge set,"Compares cash reduction with Treasury futures, SPX put spreads, VIX futures, and beta targeting under realistic transaction costs."
 Method,Dynamic dependence benchmark,"Benchmarks PCA absorption against dynamic conditional correlation, spillover-network, and rolling factor-loading stability measures."
 Intraday,Longer 60-minute ES panel,Tests whether event-conditioned intraday driver maps are stable across crisis and non-crisis regimes rather than only the available 140-day sample.
-Narrative,Timestamp-valid document synthesis,"Tests whether news and macro context explain detected regimes once market-data signals are fixed, with document timestamps, prompt hashes, and contamination checks."

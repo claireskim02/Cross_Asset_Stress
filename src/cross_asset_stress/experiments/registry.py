@@ -34,7 +34,7 @@ class ExperimentRecord(BaseModel):
     embargo_days: int | None = None
     model_name: str
     metrics: dict[str, float] = Field(default_factory=dict)
-    contamination_flags: list[str] = Field(default_factory=list)
+    leakage_flags: list[str] = Field(default_factory=list)
 
 
 def load_yaml(path: str | Path) -> dict[str, Any]:
@@ -72,4 +72,3 @@ def make_experiment_id(prefix: str, config_hash: str) -> str:
 
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     return f"{prefix}-{stamp}-{config_hash[:8]}"
-
