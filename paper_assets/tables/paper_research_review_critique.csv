@@ -1,0 +1,7 @@
+area,critique,refinement
+Data,"AR/IVM is a strong daily options panel, but selected-maturity futures prices should be checked against clean roll-adjusted futures returns.",Add a Bloomberg continuous-futures return panel and compare realized-return correlations against AR/IVM selected futures returns.
+Signal construction,The stress score is an equal-weighted composite of z-scored components.,"Report component contributions, monotonic event-rate tests, and alternative weighting schemes fixed before testing."
+PCA,"PCA absorption is useful for concentration, but it is not causal attribution.","Compare against dynamic conditional correlation, spillover networks, and rolling factor-loading stability."
+Forecasting,VIX term structure remains the stronger direct event forecaster.,Frame AR/IVM as a state variable and test incremental value with fixed model classes and walk-forward validation.
+Backtest,"The protection rule is simple and interpretable, but the exploratory threshold grid can overfit.","Use train/validation/test splits, pre-specify the reference rule, and test realistic hedging instruments."
+Claims,"The evidence supports stress detection and drawdown control, not a fully optimized trading model.",State conclusions as protection-layer evidence and keep high-conviction threshold results as future pre-specified tests.

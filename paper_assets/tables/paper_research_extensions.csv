@@ -1,0 +1,8 @@
+priority,extension,purpose
+High,Roll-adjusted futures returns,Validate AR/IVM selected futures prices against a clean realized cross-asset return panel.
+High,Walk-forward rule selection,Select stress thresholds and exposure levels without using the final test window.
+High,Hedge implementation tests,"Compare cash, Treasury futures, SPX put spreads, VIX futures, and dynamic beta reduction."
+Medium,DCC and spillover benchmarks,Test whether PCA adds information beyond standard dynamic dependence models.
+Medium,Signal stability by regime,"Measure whether the AR/IVM score behaves differently in equity volatility spikes, inflation/rates shocks, and commodity shocks."
+Medium,Longer intraday history,Move the ES impulse section from method demonstration to cross-regime evidence.
+Later,Timestamp-valid LLM synthesis,Summarize macro narratives only after structured market-data signals are fixed and auditable.

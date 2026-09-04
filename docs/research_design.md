@@ -1,10 +1,10 @@
 # Research Design
 
-ChronoSwan asks whether a leakage-controlled, point-in-time LLM agent can add incremental information to derivatives-market crash-risk measures.
+ChronoSwan asks whether cross-asset derivatives-market stress measures can improve equity drawdown-risk monitoring, and whether a leakage-controlled LLM layer can later add timestamp-valid narrative information.
 
 ## Framing
 
-The project forecasts predefined stress events, not unknowable black swans. A valid forecast is a probability attached to a timestamp, horizon, event definition, and immutable information set.
+The project forecasts predefined stress events, not undefined extreme events. A valid forecast is a probability attached to a timestamp, horizon, event definition, and immutable information set.
 
 The practical use case is risk monitoring and research triage: convert heterogeneous market, options, credit, liquidity, macro, and document signals into a calibrated stress score with traceable evidence.
 

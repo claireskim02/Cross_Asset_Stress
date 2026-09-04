@@ -4,7 +4,7 @@ Status: active empirical draft. The current paper branch uses long-history cross
 
 ## Research Position
 
-The viable project is not "predict black swans." The viable project is to detect stress regimes with point-in-time market data, quantify whether those regimes lift forward drawdown risk, and test whether de-risking rules improve portfolio path behavior after signal delays and costs.
+The viable project is not to predict undefined extreme events. The viable project is to detect stress regimes with point-in-time market data, quantify whether those regimes lift forward drawdown risk, and test whether de-risking rules improve portfolio path behavior after signal delays and costs.
 
 Current working question:
 
@@ -26,13 +26,13 @@ The cross-asset implied-volatility layer has meaningful event-rate signal. Equit
 
 Post-2018 ES ATM implied-volatility shocks are tightly linked to NQ and RTY, and moderately linked to rates, yen, gold, FX, energy, and metals. Selected futures returns recover the classic risk-on/risk-off structure: equity beta clusters together while dollar strength, duration, and yen often sit on the defensive side of ES risk.
 
-PCA absorption is useful as a concentration diagnostic and communication layer. It is not currently strong enough to be treated as a standalone crash predictor.
+PCA absorption is useful as a concentration diagnostic and communication layer. It is not currently strong enough to be treated as a standalone drawdown predictor.
 
 VIX term structure remains the harder direct forecasting benchmark in the 2020+ holdout. The AR/IVM layer is more convincing as a stress state variable and exposure overlay input.
 
-The simple AR/IVM de-risking overlay improves holdout Sharpe and drawdown behavior versus SPX total return, while giving up little raw return in the baseline rule. A validation guardrail shows that parameter selection is fragile: the validation-selected rule does not dominate in the 2020+ test. A high-conviction sensitivity rule using the pre-2020 95th-percentile stress threshold is an interesting research lead, but it must be locked before further testing.
+The simple AR/IVM de-risking overlay improves holdout Sharpe and drawdown behavior versus SPX total return, while giving up little raw return in the baseline rule. Sample-split validation shows that parameter selection is fragile: the validation-selected rule does not dominate in the 2020+ test. A high-conviction sensitivity rule using the pre-2020 95th-percentile stress threshold is an interesting research lead, but it must be locked before further testing.
 
-Agriculture improves the macro interpretation set, especially for supply and inflation regimes. In the current equity drawdown tests, agricultural implied volatility is not a universal SPX crash warning.
+Agriculture improves the macro interpretation set, especially for supply and inflation regimes. In the current equity drawdown tests, agricultural implied volatility is not a universal SPX drawdown-risk indicator.
 
 ## Current Decisions
 

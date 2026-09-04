@@ -2,7 +2,7 @@
 
 ChronoSwan is a research work in progress on point-in-time detection and attribution of market stress. The current draft tests whether cross-asset futures-options implied volatility, skew, and PCA concentration can identify stress regimes early enough to improve a simple S&P 500 exposure rule.
 
-The project is framed as quantitative research, not as a claim to predict unknowable black swans. The empirical pipeline benchmarks VIX term structure, cross-asset option-implied stress, conditional event-rate lift, PCA absorption, and a 2020+ chronological holdout backtest. The intraday ES impulse workflow remains a case study for attributing large 60-minute moves after a stress regime has been detected.
+The project is framed as quantitative research, not as a claim to predict undefined extreme events. The empirical pipeline benchmarks VIX term structure, cross-asset option-implied stress, conditional event-rate lift, PCA absorption, and a 2020+ chronological holdout backtest. The intraday ES impulse workflow remains a case study for attributing large 60-minute moves after a stress regime has been detected.
 
 Public raw data is not included. Bloomberg/Finaeon/Nasdaq workbooks, API credentials, parquet caches, executed notebooks, and generated reports are kept local and ignored by git.
 
@@ -11,6 +11,7 @@ Public raw data is not included. Bloomberg/Finaeon/Nasdaq workbooks, API credent
 - Public chartbook: https://claireskim02.github.io/ChronoSwan/docs/
 - Source page: [docs/index.html](docs/index.html)
 - Working paper notebook: [notebooks/Paper_Draft.ipynb](notebooks/Paper_Draft.ipynb)
+- Curated paper exhibits: [paper_assets/](paper_assets/)
 - Nasdaq Data Link setup: [docs/nasdaq_data_link.md](docs/nasdaq_data_link.md)
 - Literature and benchmark map: [docs/literature_review.md](docs/literature_review.md)
 - Research log: [docs/research_log.md](docs/research_log.md)
@@ -35,4 +36,4 @@ The executed local research report is written to `reports/Paper_Draft_executed.h
 
 ## Research Boundary
 
-Valid claims are limited to reproducible, point-in-time event definitions and benchmark comparisons. LLM agents are treated as future incremental information processors, not as unconstrained historical oracles. Any agent result must record model identity, prompt/context hashes, data timestamps, and contamination controls before it can be compared with the structured market-data benchmarks.
+Valid claims are limited to reproducible, point-in-time event definitions and benchmark comparisons. LLM agents are treated as future incremental information processors, not as unrestricted hindsight engines. Any agent result must record model identity, prompt/context hashes, data timestamps, and contamination controls before it can be compared with the structured market-data benchmarks.

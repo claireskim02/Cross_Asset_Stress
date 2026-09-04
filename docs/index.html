@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ChronoSwan Cross-Asset Stress Chartbook</title>
+  <title>ChronoSwan Research Chartbook</title>
   <style>
     :root {
-      --ink: #17202a;
+      --ink: #16202a;
       --muted: #5f6875;
       --line: #d8dee8;
       --paper: #fbfcfd;
@@ -20,36 +20,48 @@
 
     * { box-sizing: border-box; }
 
+    html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
       color: var(--ink);
       background: var(--paper);
       font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.48;
+      line-height: 1.5;
     }
 
-    main {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 42px 22px 72px;
+    a {
+      color: var(--blue);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
     }
 
     header {
       border-bottom: 1px solid var(--line);
-      padding-bottom: 26px;
-      margin-bottom: 22px;
+      background: var(--panel);
+    }
+
+    .wrap {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 22px;
+    }
+
+    .masthead {
+      padding: 34px 0 22px;
     }
 
     .eyebrow {
       margin: 0 0 10px;
       color: var(--blue);
       font-size: 0.78rem;
-      font-weight: 750;
+      font-weight: 760;
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
     h1 {
+      max-width: 980px;
       margin: 0;
       font-size: clamp(2rem, 5vw, 4rem);
       line-height: 1.04;
@@ -58,125 +70,173 @@
 
     h2 {
       margin: 0 0 12px;
-      font-size: 1.42rem;
+      font-size: 1.55rem;
       letter-spacing: 0;
     }
 
     h3 {
-      margin: 22px 0 8px;
-      font-size: 1.02rem;
+      margin: 18px 0 8px;
+      font-size: 1.05rem;
       letter-spacing: 0;
     }
 
     p { margin: 0 0 12px; }
 
-    a {
-      color: var(--blue);
-      text-decoration-thickness: 1px;
-      text-underline-offset: 3px;
-    }
-
     .lead {
       max-width: 940px;
       margin-top: 16px;
-      font-size: 1.08rem;
       color: #2e3845;
+      font-size: 1.07rem;
     }
 
-    .page {
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(251, 252, 253, 0.96);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-inner {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      overflow-x: auto;
+      padding: 10px 22px;
+      white-space: nowrap;
+    }
+
+    .nav a,
+    .filter button {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel);
+      color: var(--ink);
+      padding: 7px 10px;
+      font-size: 0.88rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .nav a:hover,
+    .filter button:hover,
+    .filter button.active {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    main {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 22px 22px 72px;
+    }
+
+    section {
       border-top: 1px solid var(--line);
       padding: 28px 0 18px;
-      margin-top: 24px;
+      margin-top: 18px;
     }
 
-    .page-label {
+    .section-label {
       color: var(--gold);
-      font-size: 0.8rem;
-      font-weight: 750;
+      font-size: 0.78rem;
+      font-weight: 760;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       margin-bottom: 8px;
     }
 
-    .grid-4 {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin: 16px 0 12px;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin: 16px 0 12px;
-    }
-
+    .grid-4,
+    .grid-3,
     .grid-2 {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
+      gap: 12px;
       margin: 16px 0;
     }
 
-    .tile,
-    .chart,
-    .note-box {
-      background: var(--panel);
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .metric,
+    .note,
+    .figure-card,
+    .table-panel,
+    .flow-step {
       border: 1px solid var(--line);
       border-radius: 6px;
+      background: var(--panel);
     }
 
-    .tile {
+    .metric {
       min-height: 112px;
       padding: 14px 15px;
     }
 
-    .tile strong {
+    .metric strong {
       display: block;
-      font-size: 1.55rem;
+      font-size: 1.52rem;
       line-height: 1.1;
     }
 
-    .tile span {
+    .metric span {
       display: block;
       margin-top: 8px;
       color: var(--muted);
       font-size: 0.9rem;
     }
 
-    .chart {
-      padding: 14px;
-      overflow-x: auto;
-    }
-
-    .chart-title {
-      font-weight: 720;
-      margin-bottom: 8px;
-    }
-
-    .read {
-      max-width: 900px;
-      color: #3b4654;
-      font-size: 0.96rem;
-      margin: 8px 0 16px;
-      border-left: 3px solid var(--blue);
-      padding-left: 10px;
-    }
-
-    .note-box {
+    .note {
       padding: 13px 14px;
       background: var(--soft);
     }
 
-    .note-box strong { display: block; margin-bottom: 6px; }
+    .note strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .read {
+      max-width: 920px;
+      color: #3b4654;
+      font-size: 0.96rem;
+      border-left: 3px solid var(--blue);
+      padding-left: 10px;
+      margin: 10px 0 14px;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .flow-step {
+      min-height: 128px;
+      padding: 13px;
+      position: relative;
+    }
+
+    .flow-step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      right: -8px;
+      top: 50%;
+      width: 14px;
+      border-top: 2px solid var(--line);
+    }
+
+    .flow-step strong { display: block; margin-bottom: 6px; }
+    .flow-step span { color: var(--muted); font-size: 0.9rem; }
 
     table {
       width: 100%;
       border-collapse: collapse;
       margin: 12px 0 10px;
       background: var(--panel);
-      font-size: 0.92rem;
+      font-size: 0.91rem;
     }
 
     th,
@@ -192,70 +252,81 @@
       font-weight: 720;
     }
 
-    .bar-row {
-      display: grid;
-      grid-template-columns: 126px minmax(180px, 1fr) 74px;
-      gap: 10px;
-      align-items: center;
-      margin: 8px 0;
-      min-width: 390px;
-      font-size: 0.92rem;
+    .table-panel {
+      overflow-x: auto;
+      padding: 10px 12px;
     }
 
-    .bar-track {
-      background: #e9eef4;
-      border-radius: 3px;
-      height: 18px;
-      position: relative;
+    .filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .figure-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .figure-card {
       overflow: hidden;
     }
 
-    .bar-fill {
+    .figure-card img {
       display: block;
-      height: 100%;
-      background: var(--blue);
+      width: 100%;
+      height: auto;
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
     }
 
-    .bar-fill.red { background: var(--red); }
-    .bar-fill.green { background: var(--green); }
-    .bar-fill.gold { background: var(--gold); }
-
-    .corr-row {
-      display: grid;
-      grid-template-columns: 56px minmax(220px, 1fr) 66px;
-      gap: 10px;
-      align-items: center;
-      margin: 8px 0;
-      min-width: 390px;
-      font-size: 0.92rem;
+    .figure-body {
+      padding: 12px 13px 14px;
     }
 
-    .corr-axis {
-      position: relative;
-      height: 22px;
-      background: linear-gradient(to right, #f1d9d5 0 50%, #d8ebf2 50% 100%);
-      border-radius: 3px;
-      overflow: hidden;
+    .figure-body strong {
+      display: block;
+      margin-bottom: 5px;
     }
 
-    .corr-axis::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      border-left: 1px solid #6f7885;
+    .figure-body p {
+      color: #3b4654;
+      font-size: 0.93rem;
+      margin-bottom: 6px;
     }
 
-    .corr-bar {
-      position: absolute;
-      top: 3px;
-      height: 16px;
-      background: var(--blue);
-      border-radius: 2px;
+    .tag {
+      display: inline-block;
+      margin-top: 4px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 2px 8px;
+      color: var(--muted);
+      font-size: 0.78rem;
     }
 
-    .corr-bar.neg { background: var(--red); }
+    details {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel);
+      margin: 10px 0;
+      padding: 12px 14px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 720;
+    }
+
+    code {
+      background: #eef2f6;
+      border-radius: 4px;
+      padding: 1px 4px;
+      font-size: 0.9em;
+    }
 
     footer {
       border-top: 1px solid var(--line);
@@ -265,271 +336,380 @@
       font-size: 0.9rem;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 980px) {
       .grid-4,
       .grid-3,
-      .grid-2 {
+      .grid-2,
+      .flow,
+      .figure-grid {
         grid-template-columns: 1fr;
       }
+
+      .flow-step:not(:last-child)::after { display: none; }
     }
   </style>
 </head>
 <body>
-  <main>
-    <header>
-      <p class="eyebrow">ChronoSwan Chartbook</p>
-      <h1>Cross-asset option-implied stress and event-conditioned PCA.</h1>
+  <header>
+    <div class="wrap masthead">
+      <p class="eyebrow">ChronoSwan Research Chartbook</p>
+      <h1>Cross-asset option-implied stress as an equity protection signal.</h1>
       <p class="lead">
-        ChronoSwan is a research work in progress on point-in-time detection and attribution of market stress. The current branch tests whether futures-options implied volatility, skew, and PCA concentration identify stress regimes early enough to improve a simple S&P 500 exposure rule.
+        This chartbook summarizes a working paper on whether futures-options implied volatility, skew, and PCA concentration identify equity stress regimes early enough to improve a simple S&P 500 exposure overlay.
       </p>
       <p class="read">
-        Raw Bloomberg, Nasdaq Data Link, Finaeon, parquet caches, and executed notebooks are kept local. This public page reports methodology and aggregate research results only.
+        The public page reports methodology, aggregate statistics, and generated figures only. Raw Bloomberg, Nasdaq Data Link, Finaeon files, credentials, parquet caches, and executed notebooks remain local.
       </p>
-    </header>
+    </div>
+  </header>
 
-    <section class="page">
-      <div class="page-label">Page 0</div>
-      <h2>Research Question</h2>
-      <div class="grid-2">
-        <div class="note-box">
-          <strong>Question</strong>
-          <p>Can a cross-asset options panel filter out ordinary market noise and identify the important impulses that precede or accompany large equity drawdowns?</p>
-        </div>
-        <div class="note-box">
-          <strong>Contribution</strong>
-          <p>The pipeline combines cross-asset option-implied stress, event-rate tests, PCA concentration, a strict chronological holdout, and an intraday ES impulse attribution case study.</p>
-        </div>
-      </div>
-      <table>
-        <thead><tr><th>Literature family</th><th>Benchmark implication</th><th>Representative reference</th></tr></thead>
-        <tbody>
-          <tr><td>Extreme correlations</td><td>Dependence should be tested in large-move subsets.</td><td>Longin and Solnik</td></tr>
-          <tr><td>Contagion versus interdependence</td><td>Stress-period correlations need bias-aware interpretation.</td><td>Forbes and Rigobon</td></tr>
-          <tr><td>Dynamic correlation</td><td>DCC is a natural formal benchmark.</td><td>Engle</td></tr>
-          <tr><td>Spillover networks</td><td>Directional driver claims need a network extension.</td><td>Diebold and Yilmaz</td></tr>
-          <tr><td>PCA absorption ratio</td><td>Factor concentration can proxy systemic fragility.</td><td>Kritzman, Li, Page, Rigobon</td></tr>
-          <tr><td>Option-implied tail risk</td><td>Volatility and skew measure priced uncertainty before realized losses.</td><td>Bollerslev and Todorov; Kelly and Jiang</td></tr>
-        </tbody>
-      </table>
-      <p class="read">
-        The novelty boundary is deliberately disciplined. PCA, VIX, and tail-risk indicators are not new; the contribution is the point-in-time cross-asset research pipeline and benchmarked protection test.
-      </p>
-    </section>
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a href="#summary">Summary</a>
+      <a href="#review">Research Review</a>
+      <a href="#method">Method</a>
+      <a href="#data">Data</a>
+      <a href="#signals">Signals</a>
+      <a href="#models">Models</a>
+      <a href="#strategy">Strategy</a>
+      <a href="#pca">PCA</a>
+      <a href="#intraday">Intraday</a>
+      <a href="#figures">Figure Gallery</a>
+      <a href="#extensions">Extensions</a>
+    </div>
+  </nav>
 
-    <section class="page">
-      <div class="page-label">Page 1</div>
-      <h2>Current Data Run</h2>
+  <main>
+    <section id="summary">
+      <div class="section-label">Page 1</div>
+      <h2>Executive Summary</h2>
       <div class="grid-4">
-        <div class="tile"><strong>29</strong><span>futures-option roots in the expanded AR/IVM panel</span></div>
-        <div class="tile"><strong>5,078</strong><span>daily option-implied feature dates from 2007-current</span></div>
-        <div class="tile"><strong>522</strong><span>constant-tenor AR/IVM features</span></div>
-        <div class="tile"><strong>45,576</strong><span>intraday rows in the ES impulse workbook</span></div>
+        <div class="metric"><strong>5,078</strong><span>daily AR/IVM option-implied feature dates</span></div>
+        <div class="metric"><strong>29</strong><span>futures-option roots across major asset classes</span></div>
+        <div class="metric"><strong>2.79x</strong><span>lift in 20D 10% SPX drawdown rate after top-decile equity ATM vol</span></div>
+        <div class="metric"><strong>0.90</strong><span>2020+ Sharpe for reference AR/IVM overlay versus 0.75 for SPXT</span></div>
       </div>
-      <table>
-        <thead><tr><th>Block</th><th>Rows</th><th>Start</th><th>End</th><th>Columns</th></tr></thead>
-        <tbody>
-          <tr><td>Daily Bloomberg benchmark panel</td><td>4,161</td><td>2010-01-04</td><td>2026-07-21</td><td>51</td></tr>
-          <tr><td>Nasdaq AR/IVM option-implied features</td><td>5,078</td><td>2007-01-02</td><td>2026-08-07</td><td>522</td></tr>
-          <tr><td>Bloomberg intraday ES impulse workbook</td><td>45,576</td><td>2026-02-05</td><td>2026-07-30</td><td>21 tickers</td></tr>
-        </tbody>
-      </table>
-      <h3>Sanitized Feature Preview</h3>
-      <table>
-        <thead><tr><th>date</th><th>ES futures 30d</th><th>ES ATM 30d</th><th>ES RR25 30d</th><th>TY ATM 30d</th><th>CL ATM 30d</th><th>C ATM 30d</th></tr></thead>
-        <tbody>
-          <tr><td>D+0000</td><td>100.00</td><td>0.142</td><td>-0.031</td><td>0.061</td><td>0.354</td><td>0.238</td></tr>
-          <tr><td>D+0001</td><td>99.74</td><td>0.145</td><td>-0.034</td><td>0.060</td><td>0.361</td><td>0.241</td></tr>
-          <tr><td>D+0002</td><td>100.18</td><td>0.139</td><td>-0.029</td><td>0.058</td><td>0.349</td><td>0.236</td></tr>
-          <tr><td>D+0003</td><td>100.41</td><td>0.137</td><td>-0.027</td><td>0.057</td><td>0.344</td><td>0.232</td></tr>
-          <tr><td>D+0004</td><td>99.96</td><td>0.146</td><td>-0.036</td><td>0.062</td><td>0.366</td><td>0.245</td></tr>
-        </tbody>
-      </table>
       <p class="read">
-        The committed page shows schema shape only. The executed local notebook prints real five-row previews before the visual sections.
+        The clean conclusion is that AR/IVM cross-asset option-implied stress is a useful protection layer. It improves drawdown and risk-adjusted behavior in a simple shifted-signal exposure overlay, but it should not yet be described as a fully optimized trading strategy.
       </p>
-    </section>
-
-    <section class="page">
-      <div class="page-label">Page 2</div>
-      <h2>Cross-Asset Correlation Structure</h2>
       <div class="grid-2">
-        <div class="chart">
-          <div class="chart-title">30d ATM implied-vol change correlation with ES, post-2018</div>
-          <div class="bar-row"><span>NQ</span><div class="bar-track"><span class="bar-fill" style="width:94.5%"></span></div><span>0.94</span></div>
-          <div class="bar-row"><span>RTY</span><div class="bar-track"><span class="bar-fill" style="width:90.4%"></span></div><span>0.90</span></div>
-          <div class="bar-row"><span>US</span><div class="bar-track"><span class="bar-fill gold" style="width:47.0%"></span></div><span>0.47</span></div>
-          <div class="bar-row"><span>JY</span><div class="bar-track"><span class="bar-fill gold" style="width:43.8%"></span></div><span>0.44</span></div>
-          <div class="bar-row"><span>TY</span><div class="bar-track"><span class="bar-fill gold" style="width:42.7%"></span></div><span>0.43</span></div>
-          <div class="bar-row"><span>GC</span><div class="bar-track"><span class="bar-fill green" style="width:33.5%"></span></div><span>0.34</span></div>
+        <div class="note">
+          <strong>What the study supports</strong>
+          <p>Stress-regime measurement, event-rate lift, risk-control overlays, and a research path toward implementation tests.</p>
         </div>
-        <div class="chart">
-          <div class="chart-title">Selected futures-return correlation with ES, post-2018</div>
-          <div class="corr-row"><span>NQ</span><div class="corr-axis"><span class="corr-bar" style="left:50%;width:46.7%"></span></div><span>+0.93</span></div>
-          <div class="corr-row"><span>RTY</span><div class="corr-axis"><span class="corr-bar" style="left:50%;width:43.4%"></span></div><span>+0.87</span></div>
-          <div class="corr-row"><span>AD</span><div class="corr-axis"><span class="corr-bar" style="left:50%;width:21.1%"></span></div><span>+0.42</span></div>
-          <div class="corr-row"><span>CL</span><div class="corr-axis"><span class="corr-bar" style="left:50%;width:10.5%"></span></div><span>+0.21</span></div>
-          <div class="corr-row"><span>UB</span><div class="corr-axis"><span class="corr-bar neg" style="left:43.5%;width:6.5%"></span></div><span>-0.13</span></div>
-          <div class="corr-row"><span>DX</span><div class="corr-axis"><span class="corr-bar neg" style="left:35.6%;width:14.4%"></span></div><span>-0.29</span></div>
+        <div class="note">
+          <strong>What it does not yet support</strong>
+          <p>A causal macro-driver claim, a production trading rule, or a claim that AR/IVM beats VIX term structure as a direct drawdown probability model.</p>
         </div>
       </div>
+    </section>
+
+    <section id="review">
+      <div class="section-label">Page 2</div>
+      <h2>Research Review Assessment</h2>
       <p class="read">
-        ES stress is not only an equity-index story. The implied-volatility shock basket reaches into duration, yen, gold, FX, energy, and metals, while realized futures returns recover the classic risk-on/risk-off map.
+        A hedge-fund research review would likely see the study as promising but not final. The strongest evidence is in measurement and protection; the weakest point is strategy parameter selection.
+      </p>
+      <div class="table-panel">
+        <table>
+          <thead><tr><th>Area</th><th>Critique</th><th>Refinement</th></tr></thead>
+          <tbody>
+            <tr><td>Data</td><td>AR/IVM is a strong daily options panel, but selected futures prices should be checked against clean roll-adjusted futures returns.</td><td>Add Bloomberg continuous-futures returns and compare realized-return correlations.</td></tr>
+            <tr><td>Signal construction</td><td>The stress score is an equal-weighted composite of z-scored components.</td><td>Report components, decile event rates, and pre-specified alternative weightings.</td></tr>
+            <tr><td>PCA</td><td>PCA absorption measures concentration, not causality.</td><td>Compare against DCC, spillover networks, and factor-loading stability.</td></tr>
+            <tr><td>Forecasting</td><td>VIX term structure remains the stronger direct event forecaster.</td><td>Frame AR/IVM as a state variable and test incremental value with fixed models.</td></tr>
+            <tr><td>Backtest</td><td>The overlay is interpretable, but threshold sweeps can overfit.</td><td>Use train/validation/test splits and test realistic hedge instruments.</td></tr>
+            <tr><td>Claims</td><td>The evidence supports stress detection and drawdown control, not an optimized trading model.</td><td>State conclusions as protection-layer evidence.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="method">
+      <div class="section-label">Page 3</div>
+      <h2>Research Design</h2>
+      <div class="flow">
+        <div class="flow-step"><strong>1. Data</strong><span>AR/IVM futures options, daily Bloomberg benchmarks, and intraday ES workbook.</span></div>
+        <div class="flow-step"><strong>2. Features</strong><span>Constant 30D/60D/90D ATM vol, risk reversals, butterflies, and selected futures prices.</span></div>
+        <div class="flow-step"><strong>3. Stress Score</strong><span>Shifted rolling z-scores combine equity vol, broad vol, dispersion, skew, and PCA absorption.</span></div>
+        <div class="flow-step"><strong>4. Tests</strong><span>Conditional event-rate lift, chronological holdout models, sample-split strategy validation.</span></div>
+        <div class="flow-step"><strong>5. Strategy</strong><span>Reduce SPX exposure during high-stress states; compare against SPX total return.</span></div>
+      </div>
+      <p class="read">
+        The design is deliberately simple. The first question is whether the market-data signal survives basic point-in-time tests before adding a more complex agent or hedge implementation.
       </p>
     </section>
 
-    <section class="page">
-      <div class="page-label">Page 3</div>
-      <h2>Event-Rate Lift</h2>
-      <div class="grid-2">
-        <div class="chart">
-          <div class="chart-title">Forward 10% SPX drawdown within 20 days</div>
-          <div class="bar-row"><span>Base rate</span><div class="bar-track"><span class="bar-fill gold" style="width:35.8%"></span></div><span>3.09%</span></div>
-          <div class="bar-row"><span>Equity ATM top decile</span><div class="bar-track"><span class="bar-fill red" style="width:100%"></span></div><span>8.63%</span></div>
-          <div class="bar-row"><span>Broad ATM top decile</span><div class="bar-track"><span class="bar-fill red" style="width:77.8%"></span></div><span>6.71%</span></div>
-          <div class="bar-row"><span>Energy ATM top decile</span><div class="bar-track"><span class="bar-fill red" style="width:77.8%"></span></div><span>6.71%</span></div>
-          <div class="bar-row"><span>Stress score top decile</span><div class="bar-track"><span class="bar-fill red" style="width:75.0%"></span></div><span>6.47%</span></div>
-        </div>
-        <div class="chart">
-          <div class="chart-title">Forward 5% SPX drawdown within 20 days</div>
-          <div class="bar-row"><span>Base rate</span><div class="bar-track"><span class="bar-fill gold" style="width:50.5%"></span></div><span>15.02%</span></div>
-          <div class="bar-row"><span>Equity ATM top decile</span><div class="bar-track"><span class="bar-fill red" style="width:100%"></span></div><span>29.74%</span></div>
-          <div class="bar-row"><span>Stress score top decile</span><div class="bar-track"><span class="bar-fill red" style="width:79.0%"></span></div><span>23.50%</span></div>
-          <div class="bar-row"><span>ES RR25 bottom decile</span><div class="bar-track"><span class="bar-fill red" style="width:76.8%"></span></div><span>22.84%</span></div>
-          <div class="bar-row"><span>Agriculture ATM top decile</span><div class="bar-track"><span class="bar-fill green" style="width:22.7%"></span></div><span>6.76%</span></div>
-        </div>
+    <section id="data">
+      <div class="section-label">Page 4</div>
+      <h2>Data Coverage</h2>
+      <div class="table-panel">
+        <table>
+          <thead><tr><th>Block</th><th>Rows</th><th>Start</th><th>End</th><th>Columns</th></tr></thead>
+          <tbody>
+            <tr><td>Daily Bloomberg benchmark panel</td><td>4,161</td><td>2010-01-04</td><td>2026-07-21</td><td>51</td></tr>
+            <tr><td>Nasdaq AR/IVM option-implied features</td><td>5,078</td><td>2007-01-02</td><td>2026-08-07</td><td>522</td></tr>
+            <tr><td>Bloomberg intraday ES impulse workbook</td><td>45,576</td><td>2026-02-05</td><td>2026-07-30</td><td>21 tickers</td></tr>
+          </tbody>
+        </table>
       </div>
-      <p class="read">
-        Equity-index option-implied volatility and ES downside-skew pressure are the clearest generic equity stress indicators. Agriculture broadens the macro story, but it is not a standalone SPX crash warning in this sample.
-      </p>
-    </section>
-
-    <section class="page">
-      <div class="page-label">Page 4</div>
-      <h2>PCA Stress Concentration</h2>
       <div class="grid-3">
-        <div class="tile"><strong>49.7%</strong><span>mean first-three-PC share for ATM implied-vol changes</span></div>
-        <div class="tile"><strong>57.2%</strong><span>mean first-three-PC share for selected futures returns</span></div>
-        <div class="tile"><strong>62.5%</strong><span>maximum ATM implied-vol absorption in the rolling run</span></div>
+        <div class="note"><strong>Daily conclusion</strong><p>The daily AR/IVM panel is sufficient for preliminary stress-regime conclusions because it spans multiple market regimes from 2007 onward.</p></div>
+        <div class="note"><strong>Intraday limitation</strong><p>The 140-day 60-minute workbook is a method demonstration, not final evidence for macro-driver attribution.</p></div>
+        <div class="note"><strong>Next data need</strong><p>The highest-priority addition is clean roll-adjusted continuous futures returns and realistic hedge-instrument data.</p></div>
       </div>
-      <table>
-        <thead><tr><th>Panel</th><th>Count</th><th>Mean</th><th>Median</th><th>Max</th></tr></thead>
-        <tbody>
-          <tr><td>ATM implied-vol changes</td><td>966</td><td>0.497</td><td>0.488</td><td>0.625</td></tr>
-          <tr><td>Selected futures returns</td><td>966</td><td>0.572</td><td>0.562</td><td>0.732</td></tr>
-        </tbody>
-      </table>
-      <p class="read">
-        PCA is useful for compression and monitoring, not causal attribution by itself. In the event-rate tests, absorption alone is weaker than equity volatility and skew.
-      </p>
     </section>
 
-    <section class="page">
-      <div class="page-label">Page 5</div>
+    <section id="signals">
+      <div class="section-label">Page 5</div>
+      <h2>Stress Signal Evidence</h2>
+      <div class="grid-2">
+        <figure class="figure-card">
+          <img src="assets/figures/paper_ar_ivm_stress_score.png" alt="AR/IVM stress score over time against SPX drawdown">
+          <figcaption class="figure-body">
+            <strong>AR/IVM stress score</strong>
+            <p>The stress score rises around major equity stress regimes, but it is not a perfect binary switch.</p>
+            <span class="tag">Signal construction</span>
+          </figcaption>
+        </figure>
+        <figure class="figure-card">
+          <img src="assets/figures/paper_stress_score_components.png" alt="Components of the AR/IVM stress score">
+          <figcaption class="figure-body">
+            <strong>Stress-score components</strong>
+            <p>The score is an interpretable average of equity vol, broad vol, dispersion, skew pressure, and PCA absorption.</p>
+            <span class="tag">Signal construction</span>
+          </figcaption>
+        </figure>
+      </div>
+      <div class="grid-2">
+        <figure class="figure-card">
+          <img src="assets/figures/paper_option_indicator_lifts.png" alt="Forward SPX drawdown event-rate lift for option-implied indicators">
+          <figcaption class="figure-body">
+            <strong>Event-rate lift</strong>
+            <p>Top-decile equity ATM implied volatility and downside-skew pressure materially increase future drawdown event rates.</p>
+            <span class="tag">Event tests</span>
+          </figcaption>
+        </figure>
+        <figure class="figure-card">
+          <img src="assets/figures/paper_stress_decile_event_rates.png" alt="Forward drawdown event rates by AR/IVM stress score decile">
+          <figcaption class="figure-body">
+            <strong>Stress deciles</strong>
+            <p>Drawdown risk is most visible in the upper tail of the stress-score distribution.</p>
+            <span class="tag">Robustness</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="models">
+      <div class="section-label">Page 6</div>
       <h2>Forecasting Benchmark</h2>
       <div class="grid-2">
-        <div class="chart">
-          <div class="chart-title">2020+ holdout average precision</div>
-          <div class="bar-row"><span>VIX term structure</span><div class="bar-track"><span class="bar-fill" style="width:100%"></span></div><span>0.233</span></div>
-          <div class="bar-row"><span>Option stress</span><div class="bar-track"><span class="bar-fill gold" style="width:84.8%"></span></div><span>0.197</span></div>
-          <div class="bar-row"><span>Base rate</span><div class="bar-track"><span class="bar-fill gold" style="width:77.3%"></span></div><span>0.180</span></div>
-          <div class="bar-row"><span>Combined</span><div class="bar-track"><span class="bar-fill red" style="width:74.6%"></span></div><span>0.173</span></div>
-        </div>
-        <div class="chart">
-          <div class="chart-title">2020+ holdout ROC AUC</div>
-          <div class="bar-row"><span>VIX term structure</span><div class="bar-track"><span class="bar-fill" style="width:100%"></span></div><span>0.596</span></div>
-          <div class="bar-row"><span>Base rate</span><div class="bar-track"><span class="bar-fill gold" style="width:83.9%"></span></div><span>0.500</span></div>
-          <div class="bar-row"><span>Option stress</span><div class="bar-track"><span class="bar-fill gold" style="width:83.2%"></span></div><span>0.495</span></div>
-          <div class="bar-row"><span>Combined</span><div class="bar-track"><span class="bar-fill red" style="width:74.6%"></span></div><span>0.444</span></div>
-        </div>
-      </div>
-      <p class="read">
-        VIX term structure remains the hard direct-forecasting benchmark. The AR/IVM layer is more convincing as a stress state variable and de-risking input than as a first-pass logistic event probability.
-      </p>
-    </section>
-
-    <section class="page">
-      <div class="page-label">Page 6</div>
-      <h2>Strategy Backtest</h2>
-      <table>
-        <thead><tr><th>2020+ holdout strategy</th><th>Cumulative return</th><th>Annual return</th><th>Vol</th><th>Sharpe</th><th>Max drawdown</th><th>Worst day</th><th>Exposure</th></tr></thead>
-        <tbody>
-          <tr><td>SPXT buy and hold</td><td>152.9%</td><td>15.5%</td><td>20.5%</td><td>0.75</td><td>-33.8%</td><td>-12.0%</td><td>100.0%</td></tr>
-          <tr><td>AR/IVM stress overlay</td><td>145.0%</td><td>14.9%</td><td>16.7%</td><td>0.89</td><td>-25.0%</td><td>-6.0%</td><td>91.7%</td></tr>
-          <tr><td>VIX-term model overlay</td><td>87.5%</td><td>10.2%</td><td>13.5%</td><td>0.76</td><td>-21.2%</td><td>-6.0%</td><td>80.3%</td></tr>
-          <tr><td>Combined model overlay</td><td>105.9%</td><td>11.9%</td><td>19.0%</td><td>0.62</td><td>-31.3%</td><td>-12.0%</td><td>92.6%</td></tr>
-        </tbody>
-      </table>
-      <div class="grid-2">
-        <div class="chart">
-          <div class="chart-title">AR/IVM exploratory sensitivity, top rows by Sharpe</div>
-          <div class="bar-row"><span>95th pct, cash</span><div class="bar-track"><span class="bar-fill green" style="width:100%"></span></div><span>1.13</span></div>
-          <div class="bar-row"><span>95th pct, 25%</span><div class="bar-track"><span class="bar-fill green" style="width:94.8%"></span></div><span>1.07</span></div>
-          <div class="bar-row"><span>95th pct, 50%</span><div class="bar-track"><span class="bar-fill green" style="width:86.8%"></span></div><span>0.98</span></div>
-          <div class="bar-row"><span>85th pct, 25%</span><div class="bar-track"><span class="bar-fill" style="width:82.2%"></span></div><span>0.93</span></div>
-          <div class="bar-row"><span>85th pct, 50%</span><div class="bar-track"><span class="bar-fill" style="width:79.4%"></span></div><span>0.89</span></div>
-        </div>
-        <div class="chart">
-          <div class="chart-title">Longer expanding illustration</div>
+        <figure class="figure-card">
+          <img src="assets/figures/paper_holdout_model_results.png" alt="Holdout model results showing average precision and Brier score">
+          <figcaption class="figure-body">
+            <strong>2020+ holdout forecast metrics</strong>
+            <p>VIX term structure remains the strongest direct event-forecasting benchmark. AR/IVM is more useful as a stress state variable.</p>
+            <span class="tag">Forecasting</span>
+          </figcaption>
+        </figure>
+        <div class="table-panel">
+          <h3>Metric definitions</h3>
           <table>
-            <thead><tr><th>Strategy</th><th>Cumulative</th><th>Sharpe</th><th>Max DD</th><th>Worst day</th></tr></thead>
             <tbody>
-              <tr><td>SPXT buy and hold</td><td>792.1%</td><td>0.82</td><td>-33.8%</td><td>-12.0%</td></tr>
-              <tr><td>Expanding AR/IVM overlay</td><td>664.3%</td><td>0.88</td><td>-23.9%</td><td>-6.7%</td></tr>
+              <tr><th>Average precision</th><td>Rare-event ranking metric. Higher means true drawdown events tend to receive higher predicted risk scores.</td></tr>
+              <tr><th>Brier score</th><td>Mean squared probability forecast error. Lower means predicted probabilities are closer to realized outcomes.</td></tr>
+              <tr><th>ROC AUC</th><td>Ranking metric over all classification thresholds. Useful, but less informative than average precision when events are rare.</td></tr>
+              <tr><th>Holdout</th><td>A test sample not used for model fitting. The main holdout here begins in 2020.</td></tr>
             </tbody>
           </table>
         </div>
       </div>
-      <p class="read">
-        The simple AR/IVM overlay is a protection result, not a final trading strategy. A validation guardrail shows that parameter selection is fragile: the reportable baseline is the reference 85th-percentile / 50%-exposure overlay, while the 95th-percentile cash rule is a research lead that needs a locked test.
-      </p>
     </section>
 
-    <section class="page">
-      <div class="page-label">Page 7</div>
+    <section id="strategy">
+      <div class="section-label">Page 7</div>
+      <h2>Protection Strategy</h2>
+      <div class="table-panel">
+        <table>
+          <thead><tr><th>2020+ strategy</th><th>Cumulative return</th><th>Annual return</th><th>Vol</th><th>Sharpe</th><th>Max drawdown</th><th>Worst day</th><th>Exposure</th></tr></thead>
+          <tbody>
+            <tr><td>SPXT buy and hold</td><td>152.9%</td><td>15.5%</td><td>20.5%</td><td>0.75</td><td>-33.8%</td><td>-12.0%</td><td>100.0%</td></tr>
+            <tr><td>Reference AR/IVM 85/50 overlay</td><td>145.3%</td><td>14.9%</td><td>16.7%</td><td>0.90</td><td>-25.0%</td><td>-6.0%</td><td>91.7%</td></tr>
+            <tr><td>VIX-term model overlay</td><td>87.5%</td><td>10.2%</td><td>13.5%</td><td>0.76</td><td>-21.2%</td><td>-6.0%</td><td>80.3%</td></tr>
+            <tr><td>Combined model overlay</td><td>105.9%</td><td>11.9%</td><td>19.0%</td><td>0.62</td><td>-31.3%</td><td>-12.0%</td><td>92.6%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="grid-2">
+        <figure class="figure-card">
+          <img src="assets/figures/paper_holdout_strategy_curves.png" alt="Growth of one dollar for SPXT and protection overlays">
+          <figcaption class="figure-body">
+            <strong>Growth comparison</strong>
+            <p>The reference AR/IVM overlay preserves most upside while reducing risk relative to buy-and-hold.</p>
+            <span class="tag">Backtest</span>
+          </figcaption>
+        </figure>
+        <figure class="figure-card">
+          <img src="assets/figures/paper_holdout_strategy_drawdowns.png" alt="Drawdown curves for SPXT and protection overlays">
+          <figcaption class="figure-body">
+            <strong>Drawdown comparison</strong>
+            <p>The drawdown plot shows the protection objective directly: lower drawdown depth and smaller worst-day exposure.</p>
+            <span class="tag">Backtest</span>
+          </figcaption>
+        </figure>
+      </div>
+      <div class="grid-2">
+        <figure class="figure-card">
+          <img src="assets/figures/paper_strategy_sample_split_validation.png" alt="Sample split strategy validation results">
+          <figcaption class="figure-body">
+            <strong>Sample-split strategy validation</strong>
+            <p>Parameter selection is fragile. The reportable claim should be the reference overlay, not an optimized market-timing rule.</p>
+            <span class="tag">Validation</span>
+          </figcaption>
+        </figure>
+        <div class="note">
+          <strong>Implementation framing</strong>
+          <p>The starting rule is simple: reduce SPX exposure to 50% when the AR/IVM stress score exceeds a pre-specified 85th percentile. The next version should test Treasury futures, SPX option spreads, VIX futures, and dynamic beta reduction instead of only cash de-risking.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="pca">
+      <div class="section-label">Page 8</div>
+      <h2>PCA Concentration</h2>
+      <div class="grid-2">
+        <figure class="figure-card">
+          <img src="assets/figures/paper_ar_ivm_pca_absorption.png" alt="Rolling PCA absorption for AR/IVM ATM vol changes and selected futures returns">
+          <figcaption class="figure-body">
+            <strong>Rolling PCA absorption</strong>
+            <p>Absorption measures whether cross-asset moves are being driven by fewer common factors. It is a concentration measure, not a causal explanation.</p>
+            <span class="tag">PCA</span>
+          </figcaption>
+        </figure>
+        <figure class="figure-card">
+          <img src="assets/figures/paper_ar_ivm_cross_asset_correlations.png" alt="Cross-asset correlations with ES stress">
+          <figcaption class="figure-body">
+            <strong>Cross-asset correlation map</strong>
+            <p>ES implied-volatility stress co-moves most with NQ and RTY, but also connects to duration, yen, gold, FX, energy, and metals.</p>
+            <span class="tag">Cross-asset</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="intraday">
+      <div class="section-label">Page 9</div>
       <h2>Intraday ES Impulse Case Study</h2>
       <div class="grid-3">
-        <div class="tile"><strong>145</strong><span>large absolute 60-minute ES events</span></div>
-        <div class="tile"><strong>74</strong><span>large-down ES events</span></div>
-        <div class="tile"><strong>68.3%</strong><span>PC1 variance share during large absolute ES moves</span></div>
+        <div class="metric"><strong>145</strong><span>large absolute 60-minute ES events</span></div>
+        <div class="metric"><strong>74</strong><span>large-down ES events</span></div>
+        <div class="metric"><strong>68.3%</strong><span>PC1 variance share during large absolute ES moves</span></div>
       </div>
-      <div class="grid-2">
-        <div class="chart">
-          <div class="chart-title">Large-down ES impulse correlations</div>
-          <div class="corr-row"><span>NQ1</span><div class="corr-axis"><span class="corr-bar" style="left:50%;width:42.4%"></span></div><span>+0.85</span></div>
-          <div class="corr-row"><span>UX1</span><div class="corr-axis"><span class="corr-bar neg" style="left:8.5%;width:41.5%"></span></div><span>-0.83</span></div>
-          <div class="corr-row"><span>UX2</span><div class="corr-axis"><span class="corr-bar neg" style="left:9.3%;width:40.7%"></span></div><span>-0.81</span></div>
-          <div class="corr-row"><span>RTY1</span><div class="corr-axis"><span class="corr-bar" style="left:50%;width:37.0%"></span></div><span>+0.74</span></div>
-          <div class="corr-row"><span>CO1</span><div class="corr-axis"><span class="corr-bar neg" style="left:26.4%;width:23.6%"></span></div><span>-0.47</span></div>
-          <div class="corr-row"><span>CL1</span><div class="corr-axis"><span class="corr-bar neg" style="left:27.2%;width:22.8%"></span></div><span>-0.46</span></div>
-        </div>
-        <div class="chart">
-          <div class="chart-title">Intraday PC1 variance share</div>
-          <div class="bar-row"><span>Threshold-ready</span><div class="bar-track"><span class="bar-fill" style="width:72.9%"></span></div><span>49.8%</span></div>
-          <div class="bar-row"><span>Large absolute</span><div class="bar-track"><span class="bar-fill red" style="width:100%"></span></div><span>68.3%</span></div>
-          <div class="bar-row"><span>Large down</span><div class="bar-track"><span class="bar-fill gold" style="width:71.1%"></span></div><span>48.5%</span></div>
-          <div class="bar-row"><span>Large up</span><div class="bar-track"><span class="bar-fill green" style="width:72.2%"></span></div><span>49.3%</span></div>
-        </div>
-      </div>
-      <p class="read">
-        The intraday section is the bridge back to the original ES impulse question. It demonstrates the attribution workflow, but its 140-day history is too short to carry the final cross-regime claims by itself.
-      </p>
+      <figure class="figure-card">
+        <img src="assets/figures/paper_intraday_case_study.png" alt="Intraday ES impulse correlations and PCA variance">
+        <figcaption class="figure-body">
+          <strong>ES impulse attribution</strong>
+          <p>The intraday workflow recovers a familiar risk-off basket, but the sample is too short for final macro-driver claims.</p>
+          <span class="tag">Intraday</span>
+        </figcaption>
+      </figure>
     </section>
 
-    <section class="page">
-      <div class="page-label">Page 8</div>
-      <h2>Conclusion And Next Research Work</h2>
-      <div class="grid-2">
-        <div class="note-box">
-          <strong>Conclusion</strong>
-          <p>Cross-asset option-implied data is a serious stress-regime layer. It is strongest for measurement, event-rate lift, and drawdown control; it is not yet a standalone alpha or rare-event oracle.</p>
-        </div>
-        <div class="note-box">
-          <strong>Next work</strong>
-          <p>Freeze strategy thresholds, add formal hedge-instrument tests, compare PCA against DCC and spillover benchmarks, and add timestamp-valid macro/news synthesis only after the structured market-data signal is locked.</p>
-        </div>
-      </div>
+    <section id="figures">
+      <div class="section-label">Page 10</div>
+      <h2>Figure Gallery</h2>
       <p class="read">
-        Source notebook: <a href="https://github.com/claireskim02/ChronoSwan/blob/main/notebooks/Paper_Draft.ipynb">Paper_Draft.ipynb</a>. Local executed report: <code>reports/Paper_Draft_executed.html</code>.
+        Use the buttons to filter the core exhibits. These are the same essential figures saved in <code>paper_assets/figures/</code> for later LaTeX drafts.
+      </p>
+      <div class="filter" role="group" aria-label="Figure filters">
+        <button class="active" data-filter="all">All</button>
+        <button data-filter="motivation">Motivation</button>
+        <button data-filter="signal">Signal</button>
+        <button data-filter="model">Model</button>
+        <button data-filter="strategy">Strategy</button>
+        <button data-filter="pca">PCA</button>
+        <button data-filter="intraday">Intraday</button>
+      </div>
+      <div class="figure-grid">
+        <figure class="figure-card gallery-item" data-category="motivation">
+          <img src="assets/figures/paper_spxt_motivation_drawdown.png" alt="SPX total return growth and drawdown">
+          <figcaption class="figure-body"><strong>SPX drawdown motivation</strong><p>Large drawdowns motivate a protection overlay.</p><span class="tag">Motivation</span></figcaption>
+        </figure>
+        <figure class="figure-card gallery-item" data-category="signal">
+          <img src="assets/figures/paper_ar_ivm_stress_score.png" alt="AR/IVM stress score">
+          <figcaption class="figure-body"><strong>AR/IVM stress score</strong><p>Cross-asset option-implied stress around drawdown regimes.</p><span class="tag">Signal</span></figcaption>
+        </figure>
+        <figure class="figure-card gallery-item" data-category="signal">
+          <img src="assets/figures/paper_stress_score_components.png" alt="AR/IVM stress score components">
+          <figcaption class="figure-body"><strong>Stress score components</strong><p>Interpretable stress-score building blocks.</p><span class="tag">Signal</span></figcaption>
+        </figure>
+        <figure class="figure-card gallery-item" data-category="signal">
+          <img src="assets/figures/paper_option_indicator_lifts.png" alt="Option indicator drawdown event lift">
+          <figcaption class="figure-body"><strong>Option indicator lift</strong><p>Conditional drawdown risk rises after option-implied stress extremes.</p><span class="tag">Signal</span></figcaption>
+        </figure>
+        <figure class="figure-card gallery-item" data-category="signal">
+          <img src="assets/figures/paper_stress_decile_event_rates.png" alt="Stress decile event rates">
+          <figcaption class="figure-body"><strong>Stress decile event rates</strong><p>Event-rate monotonicity check across stress-score bins.</p><span class="tag">Signal</span></figcaption>
+        </figure>
+        <figure class="figure-card gallery-item" data-category="model">
+          <img src="assets/figures/paper_holdout_model_results.png" alt="Holdout forecasting model results">
+          <figcaption class="figure-body"><strong>Forecasting benchmark</strong><p>VIX term structure remains the stronger direct forecaster.</p><span class="tag">Model</span></figcaption>
+        </figure>
+        <figure class="figure-card gallery-item" data-category="strategy">
+          <img src="assets/figures/paper_holdout_strategy_curves.png" alt="Strategy growth curves">
+          <figcaption class="figure-body"><strong>Strategy growth curves</strong><p>Reference AR/IVM overlay versus SPX total return.</p><span class="tag">Strategy</span></figcaption>
+        </figure>
+        <figure class="figure-card gallery-item" data-category="strategy">
+          <img src="assets/figures/paper_holdout_strategy_drawdowns.png" alt="Strategy drawdown curves">
+          <figcaption class="figure-body"><strong>Strategy drawdowns</strong><p>Drawdown comparison across protection overlays.</p><span class="tag">Strategy</span></figcaption>
+        </figure>
+        <figure class="figure-card gallery-item" data-category="strategy">
+          <img src="assets/figures/paper_strategy_sample_split_validation.png" alt="Sample split strategy validation">
+          <figcaption class="figure-body"><strong>Sample-split validation</strong><p>Rule selection check against overfitting.</p><span class="tag">Strategy</span></figcaption>
+        </figure>
+        <figure class="figure-card gallery-item" data-category="pca">
+          <img src="assets/figures/paper_ar_ivm_pca_absorption.png" alt="PCA absorption">
+          <figcaption class="figure-body"><strong>PCA absorption</strong><p>Cross-asset concentration in the first few principal components.</p><span class="tag">PCA</span></figcaption>
+        </figure>
+        <figure class="figure-card gallery-item" data-category="pca">
+          <img src="assets/figures/paper_ar_ivm_cross_asset_correlations.png" alt="Cross asset correlations">
+          <figcaption class="figure-body"><strong>Cross-asset correlations</strong><p>Option-implied and selected futures return correlations with ES.</p><span class="tag">PCA</span></figcaption>
+        </figure>
+        <figure class="figure-card gallery-item" data-category="intraday">
+          <img src="assets/figures/paper_intraday_case_study.png" alt="Intraday ES impulse case study">
+          <figcaption class="figure-body"><strong>Intraday ES impulse case</strong><p>Conditional correlation and PCA on large 60-minute ES moves.</p><span class="tag">Intraday</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="extensions">
+      <div class="section-label">Page 11</div>
+      <h2>Extensions And Final-Paper Refinements</h2>
+      <div class="table-panel">
+        <table>
+          <thead><tr><th>Priority</th><th>Extension</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td>High</td><td>Roll-adjusted futures returns</td><td>Validate AR/IVM selected futures prices against a clean realized cross-asset return panel.</td></tr>
+            <tr><td>High</td><td>Walk-forward rule selection</td><td>Select thresholds and exposure levels without using the final test window.</td></tr>
+            <tr><td>High</td><td>Hedge implementation tests</td><td>Compare cash, Treasury futures, SPX put spreads, VIX futures, and dynamic beta reduction.</td></tr>
+            <tr><td>Medium</td><td>DCC and spillover benchmarks</td><td>Test whether PCA adds information beyond standard dynamic dependence models.</td></tr>
+            <tr><td>Medium</td><td>Signal stability by regime</td><td>Check whether the AR/IVM score behaves differently in volatility, inflation/rates, and commodity shocks.</td></tr>
+            <tr><td>Medium</td><td>Longer intraday history</td><td>Move the ES impulse section from method demonstration to cross-regime evidence.</td></tr>
+            <tr><td>Later</td><td>Timestamp-valid LLM synthesis</td><td>Summarize macro narratives after structured market-data signals are fixed and auditable.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <details>
+        <summary>Claim language to use</summary>
+        <p>Cross-asset option-implied stress contains useful information about future equity drawdown regimes and can improve a simple protection overlay. The current evidence supports risk-control use, not a fully optimized trading model.</p>
+      </details>
+      <details>
+        <summary>Claim language to avoid</summary>
+        <p>Avoid saying the model predicts large drawdowns, identifies causal macro drivers, or proves an investable strategy. Those claims require additional data, formal hedge implementation, and stricter walk-forward validation.</p>
+      </details>
+      <p class="read">
+        Source notebook: <a href="https://github.com/claireskim02/ChronoSwan/blob/main/notebooks/Paper_Draft.ipynb">notebooks/Paper_Draft.ipynb</a>. Curated LaTeX assets are in <code>paper_assets/</code>.
       </p>
     </section>
 
@@ -537,5 +717,21 @@
       ChronoSwan is public research scaffolding. The repository excludes licensed raw data, credentials, parquet caches, and executed notebooks.
     </footer>
   </main>
+
+  <script>
+    const buttons = document.querySelectorAll("[data-filter]");
+    const items = document.querySelectorAll(".gallery-item");
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.dataset.filter;
+        buttons.forEach((b) => b.classList.remove("active"));
+        button.classList.add("active");
+        items.forEach((item) => {
+          item.style.display = filter === "all" || item.dataset.category === filter ? "" : "none";
+        });
+      });
+    });
+  </script>
 </body>
 </html>
