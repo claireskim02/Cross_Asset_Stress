@@ -39,4 +39,4 @@ The executed local research report is written to `reports/cross_asset_stress_mon
 
 ## Research Boundary
 
-The current evidence is limited to reproducible, point-in-time event definitions, cross-asset co-movement tests, event-rate lift, PCA concentration diagnostics, and chronological benchmark comparisons. The paper does not claim causal macro attribution or a production hedge program without additional realized-futures, intraday, and instrument-level validation.
+The current evidence is limited to reproducible, point-in-time event definitions, cross-asset co-movement tests, event-rate lift, PCA concentration diagnostics, and chronological benchmark comparisons. The paper does not present causal macro attribution or a production hedge program without additional realized-futures, intraday, and instrument-level validation.

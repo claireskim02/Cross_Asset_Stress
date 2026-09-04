@@ -1,0 +1,6 @@
+strategy,signal,portfolio_action,research_role
+SPXT buy and hold,No stress signal,Hold 100% SPX total return exposure every day.,Raw equity beta benchmark.
+VIX-term model overlay,Pre-2020 85th percentile of a VIX/VIX3M/futures term-structure probability model.,Reduce next-day SPX exposure to 50% when the signal is high.,Established volatility benchmark for direct event prediction.
+AR/IVM reference overlay,Pre-2020 85th percentile of the cross-asset option-implied stress score.,Reduce next-day SPX exposure to 50% when the score is high.,Main test of whether the cross-asset stress layer improves portfolio path quality.
+Combined model overlay,Pre-2020 85th percentile of a model combining VIX-term and AR/IVM stress features.,Reduce next-day SPX exposure to 50% when the combined probability is high.,Checks whether combining the two signal families improves the benchmark.
+AR/IVM 95th percentile cash sensitivity,Pre-2020 95th percentile of the same AR/IVM stress score.,Move next-day SPX exposure to 0% only in the most extreme stress states.,"Sensitivity result; strongest 2020+ outcome, requires a locked follow-up test."

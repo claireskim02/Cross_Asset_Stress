@@ -236,6 +236,21 @@
       font-size: 0.9rem;
     }
 
+    .table-scroll {
+      overflow-x: auto;
+      margin: 12px 0 14px;
+    }
+
+    .table-scroll table {
+      min-width: 820px;
+      margin: 0;
+    }
+
+    .strategy-definitions td:first-child {
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
     code {
       background: #eef1f3;
       border-radius: 3px;
@@ -326,7 +341,7 @@
           This study tests whether cross-asset futures-options implied volatility and skew contain useful information about future S&amp;P 500 drawdown regimes. The empirical design combines a long-history Nasdaq Data Link AR/IVM options panel, daily equity and volatility benchmarks, and a short intraday ES case study. The core signal is an interpretable stress score built from equity implied volatility, broad cross-asset implied volatility, dispersion, downside-skew pressure, and PCA concentration.
         </p>
         <p>
-          The evidence is strongest for risk monitoring and exposure control. Equity-index ATM implied volatility and ES downside-skew pressure materially raise forward SPX drawdown event rates. VIX term structure remains the stronger direct probability benchmark in the 2020+ holdout, but the AR/IVM stress layer improves the path behavior of a simple shifted-signal protection overlay.
+          The evidence is strongest for risk monitoring and exposure control. Equity-index ATM implied volatility and ES downside-skew pressure materially raise forward SPX drawdown event rates. VIX term structure remains the stronger direct probability benchmark in the 2020+ holdout, but the AR/IVM stress layer improves the path behavior of a simple shifted-signal protection overlay. The strongest AR/IVM sensitivity result is an extreme-stress cash rule; it is reported separately from the reference overlay because its threshold and exposure setting require a locked follow-up test.
         </p>
         <table>
           <thead><tr><th>Empirical block</th><th>Result</th><th>Research implication</th></tr></thead>
@@ -420,13 +435,13 @@
       <section id="correlations">
         <h2>6. Cross-Asset Correlations</h2>
         <p>
-          The cross-asset exercise asks whether large ES or SPX stress states are associated with a recognizable macro basket. Post-2018 AR/IVM shocks show very high co-movement between ES, NQ, and RTY implied volatility, with secondary links to rates, yen, gold, FX, energy, and metals. Futures returns recover the expected risk-on/risk-off structure: equity beta clusters together, while dollar strength, duration, and yen often sit on the defensive side.
+          The cross-asset exercise asks whether large ES or SPX stress states are associated with a recognizable macro basket. Post-2018 AR/IVM shocks show very high co-movement between ES, NQ, and RTY implied volatility, with secondary links to rates, yen, gold, FX, energy, metals, and agriculture. Futures returns recover a different risk-on/risk-off structure: equity beta clusters together, while dollar strength, duration, and yen often sit on the defensive side.
         </p>
         <figure>
           <img src="assets/figures/paper_ar_ivm_cross_asset_correlations.png" alt="Cross-asset correlations with ES stress">
           <figcaption class="caption">
             <strong>Figure 4. Cross-asset co-movement around ES stress.</strong>
-            ES stress co-moves most with other equity-index option markets, but the broader matrix shows that rates, FX, metals, and commodities carry additional regime information.
+            The matrix shows how option-implied volatility shocks cluster across asset classes. The scatter compares each market's ES futures-return correlation with its ES implied-volatility shock correlation, which separates realized return beta from option-implied stress repricing.
             <div class="source">Correlations are descriptive and do not establish a causal macro driver.</div>
           </figcaption>
         </figure>
@@ -480,37 +495,56 @@
       <section id="overlay">
         <h2>9. Portfolio Overlay</h2>
         <p>
-          The overlay applies shifted stress signals to SPX total return exposure. The reference rule reduces exposure by half when the AR/IVM stress score is above its training-window 85th percentile. This is intentionally simple. It tests whether stress measurement can improve portfolio path quality without relying on a complex optimizer.
+          The overlay applies shifted stress signals to SPX total return exposure. In every rule, the stress signal is observed first, the position is changed the next trading day, and a 1 bp turnover cost is charged. The portfolio never shorts the market and never trades options directly. The test is intentionally simple: if the stress layer has useful information, it should improve path quality before any complex hedge construction is added.
         </p>
+        <table class="strategy-definitions">
+          <thead><tr><th>Rule</th><th>Signal</th><th>Portfolio action</th><th>Why it is included</th></tr></thead>
+          <tbody>
+            <tr><td>SPXT buy and hold</td><td>No stress signal.</td><td>Hold 100% SPX total return exposure.</td><td>Raw equity beta benchmark.</td></tr>
+            <tr><td>VIX-term overlay</td><td>High probability from a VIX/VIX3M/futures term-structure model.</td><td>Reduce next-day SPX exposure to 50%.</td><td>Established volatility benchmark for direct drawdown-event forecasting.</td></tr>
+            <tr><td>AR/IVM reference overlay</td><td>Cross-asset option-implied stress score above its pre-2020 85th percentile.</td><td>Reduce next-day SPX exposure to 50%.</td><td>Main test of whether the cross-asset stress layer improves portfolio path quality.</td></tr>
+            <tr><td>Combined-model overlay</td><td>High probability from a model combining VIX-term and AR/IVM features.</td><td>Reduce next-day SPX exposure to 50%.</td><td>Checks whether combining signal families improves the benchmark.</td></tr>
+            <tr><td>AR/IVM 95/cash sensitivity</td><td>Same AR/IVM score above its pre-2020 95th percentile.</td><td>Move next-day SPX exposure to 0% only in the most extreme stress states.</td><td>Sensitivity result; strongest 2020+ outcome, requires a locked follow-up test.</td></tr>
+          </tbody>
+        </table>
         <div class="figure-pair">
           <figure>
             <img src="assets/figures/paper_holdout_strategy_curves.png" alt="Holdout strategy curves">
             <figcaption class="caption">
               <strong>Figure 8. Holdout strategy curves.</strong>
-              The reference AR/IVM overlay preserves much of the upside while reducing realized volatility and left-tail exposure in the 2020+ holdout.
+              The AR/IVM reference overlay preserves most of the SPX upside while reducing realized volatility and left-tail exposure in the 2020+ holdout.
             </figcaption>
           </figure>
           <figure>
             <img src="assets/figures/paper_holdout_strategy_drawdowns.png" alt="Holdout strategy drawdowns">
             <figcaption class="caption">
               <strong>Figure 9. Holdout strategy drawdowns.</strong>
-              The overlay reduces maximum drawdown versus SPX total return. The result is stronger as drawdown-control evidence than as proof of a finished implementation.
+              The VIX-term rule has the shallowest drawdown but much lower participation. The AR/IVM reference overlay gives a more balanced protection profile: smaller drawdowns than buy-and-hold with higher average exposure than the VIX-only rule.
             </figcaption>
           </figure>
         </div>
-        <table>
-          <thead><tr><th>Strategy</th><th>Cumulative return</th><th>Annual return</th><th>Annual vol</th><th>Sharpe</th><th>Max drawdown</th></tr></thead>
-          <tbody>
-            <tr><td>SPXT buy and hold</td><td>152.8%</td><td>15.5%</td><td>20.5%</td><td>0.75</td><td>-33.8%</td></tr>
-            <tr><td>Reference AR/IVM overlay</td><td>145.3%</td><td>14.9%</td><td>16.7%</td><td>0.90</td><td>-24.9%</td></tr>
-            <tr><td>Exploratory 95th-percentile cash overlay</td><td>204.6%</td><td>18.9%</td><td>16.7%</td><td>1.13</td><td>-24.6%</td></tr>
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>2020+ holdout strategy</th><th>Cumulative return</th><th>Annual return</th><th>Vol</th><th>Sharpe</th><th>Max drawdown</th><th>Worst day</th><th>Average exposure</th></tr></thead>
+            <tbody>
+              <tr><td>SPXT buy and hold</td><td>152.8%</td><td>15.5%</td><td>20.5%</td><td>0.75</td><td>-33.8%</td><td>-12.0%</td><td>100.0%</td></tr>
+              <tr><td>AR/IVM reference overlay</td><td>144.9%</td><td>14.9%</td><td>16.7%</td><td>0.89</td><td>-24.9%</td><td>-6.0%</td><td>91.7%</td></tr>
+              <tr><td>VIX-term model overlay</td><td>87.5%</td><td>10.2%</td><td>13.5%</td><td>0.76</td><td>-21.2%</td><td>-6.0%</td><td>80.3%</td></tr>
+              <tr><td>Combined model overlay</td><td>105.9%</td><td>11.8%</td><td>19.0%</td><td>0.62</td><td>-31.3%</td><td>-12.0%</td><td>92.6%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">
+          The main holdout table reports the pre-2020 85th-percentile threshold rules. The AR/IVM reference overlay improves Sharpe from 0.75 to 0.89 and reduces maximum drawdown from -33.8% to -24.9%, while giving up less than one percentage point of annual return versus buy-and-hold.
+        </p>
+        <p>
+          The 95/cash AR/IVM sensitivity is the best-performing action rule in this particular 2020+ grid: 204.6% cumulative return, 18.9% annual return, 16.7% volatility, 1.13 Sharpe, -24.6% max drawdown, and 94.6% average exposure. It is still the same risk layer. The difference is that it waits for a more extreme stress threshold and then exits equity exposure fully for the next day. That result is promising, but it should be treated as a candidate rule to lock and retest rather than as the main selected strategy.
+        </p>
         <figure>
           <img src="assets/figures/paper_strategy_sample_split_validation.png" alt="Sample-split strategy validation">
           <figcaption class="caption">
             <strong>Figure 10. Sample-split strategy validation.</strong>
-            Threshold selection is fragile. The validation-selected rule does not dominate in the final test window, while the reference overlay remains a cleaner reportable benchmark.
+            The validation-selected rule does not dominate in the final test window. Aggressive threshold tuning is therefore useful research evidence, but it is not stable enough to drive the main conclusion.
           </figcaption>
         </figure>
       </section>
