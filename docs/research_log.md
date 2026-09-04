@@ -1,6 +1,6 @@
 # Research Log
 
-Status: active empirical draft. The current paper branch uses long-history cross-asset futures-options implied-volatility data as the main stress-regime layer, with daily SPX/VIX benchmarks and an intraday ES impulse case study.
+Status: active empirical analysis. The current paper branch uses long-history cross-asset futures-options implied-volatility data as the main stress-regime layer, with daily SPX/VIX benchmarks and an intraday ES impulse case study.
 
 ## Research Position
 

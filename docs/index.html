@@ -291,9 +291,9 @@
       </p>
       <div class="meta" aria-label="Project metadata">
         <div class="label">Author</div><div>Claire Kim</div>
-        <div class="label">Status</div><div>Working research draft. Results are preliminary and reproducible from the local notebook execution.</div>
-        <div class="label">Source notebook</div><div><code>notebooks/cross_asset_stress_monitor_paper.ipynb</code></div>
-        <div class="label">Public artifacts</div><div><code>paper_assets/figures</code>, <code>paper_assets/tables</code>, and this chartbook.</div>
+        <div class="label">Empirical scope</div><div>Daily AR/IVM option-implied features from 2007 onward, daily benchmark indicators from 2010 onward, and a 140-day intraday ES impulse case study.</div>
+        <div class="label">Research notebook</div><div><code>notebooks/cross_asset_stress_monitor_paper.ipynb</code></div>
+        <div class="label">Paper exhibits</div><div><code>paper_assets/figures</code>, <code>paper_assets/tables</code>, and this chartbook.</div>
         <div class="label">Data disclosure</div><div>Raw Bloomberg, Nasdaq Data Link, Finaeon, parquet cache, credential, and executed-report files are intentionally excluded from the public repository.</div>
       </div>
     </header>
@@ -311,8 +311,9 @@
         <li><a href="#models">Forecasting Benchmarks</a></li>
         <li><a href="#overlay">Portfolio Overlay</a></li>
         <li><a href="#pca">PCA and Intraday Evidence</a></li>
-        <li><a href="#review">Research Review</a></li>
-        <li><a href="#appendix">Appendix Exhibits</a></li>
+        <li><a href="#discussion">Discussion</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+        <li><a href="#appendix">Appendix</a></li>
       </ol>
     </nav>
 
@@ -323,14 +324,14 @@
           This study tests whether cross-asset futures-options implied volatility and skew contain useful information about future S&amp;P 500 drawdown regimes. The empirical design combines a long-history Nasdaq Data Link AR/IVM options panel, daily equity and volatility benchmarks, and a short intraday ES case study. The core signal is an interpretable stress score built from equity implied volatility, broad cross-asset implied volatility, dispersion, downside-skew pressure, and PCA concentration.
         </p>
         <p>
-          The first-pass evidence is strongest for risk monitoring and exposure control. Equity-index ATM implied volatility and ES downside-skew pressure materially raise forward SPX drawdown event rates. VIX term structure remains the stronger direct probability benchmark in the 2020+ holdout, but the AR/IVM stress layer improves the path behavior of a simple shifted-signal protection overlay.
+          The evidence is strongest for risk monitoring and exposure control. Equity-index ATM implied volatility and ES downside-skew pressure materially raise forward SPX drawdown event rates. VIX term structure remains the stronger direct probability benchmark in the 2020+ holdout, but the AR/IVM stress layer improves the path behavior of a simple shifted-signal protection overlay.
         </p>
         <table>
-          <thead><tr><th>Empirical block</th><th>Current result</th><th>Research implication</th></tr></thead>
+          <thead><tr><th>Empirical block</th><th>Result</th><th>Research implication</th></tr></thead>
           <tbody>
             <tr><td>Stress measurement</td><td>Top-decile equity ATM vol has 2.79x lift for 20-day 10% SPX drawdown events.</td><td>Option-implied stress is economically meaningful.</td></tr>
-            <tr><td>Direct forecasting</td><td>VIX term structure has the best 2020+ average precision and ROC AUC among the simple benchmark models.</td><td>AR/IVM should be framed as incremental state information rather than a standalone replacement.</td></tr>
-            <tr><td>Protection overlay</td><td>The reference AR/IVM overlay improves holdout Sharpe and max drawdown versus SPX total return.</td><td>The implementation path should focus on pre-specified de-risking and hedge tests.</td></tr>
+            <tr><td>Direct forecasting</td><td>VIX term structure has the best 2020+ average precision and ROC AUC among the simple benchmark models.</td><td>AR/IVM is best interpreted as incremental state information rather than a standalone replacement.</td></tr>
+            <tr><td>Protection overlay</td><td>The reference AR/IVM overlay improves holdout Sharpe and max drawdown versus SPX total return.</td><td>The implementation path centers on pre-specified de-risking and hedge tests.</td></tr>
             <tr><td>PCA and intraday attribution</td><td>PCA helps summarize factor concentration and intraday risk-off baskets, but does not establish causality.</td><td>Additional history and formal spillover models are needed for driver attribution.</td></tr>
           </tbody>
         </table>
@@ -346,7 +347,7 @@
           <figcaption class="caption">
             <strong>Figure 1. SPX total return drawdowns.</strong>
             Long-run SPX total return performance contains repeated deep drawdown regimes. This motivates a protection overlay whose objective is not to forecast every down day, but to reduce left-tail exposure when stress information is elevated.
-            <div class="source">Source: local daily benchmark workbook and notebook output.</div>
+            <div class="source">Source: Bloomberg daily benchmark workbook; calculations by author.</div>
           </figcaption>
         </figure>
       </section>
@@ -354,7 +355,7 @@
       <section id="literature">
         <h2>3. Literature Position</h2>
         <p>
-          The study sits next to established work on option-implied tail risk, changing correlations in stress periods, PCA concentration, dynamic conditional correlation, and spillover networks. The contribution is therefore not the individual use of PCA or implied volatility. The contribution is the workflow: a cross-asset option-implied stress panel, event-rate tests before strategy tests, chronological validation, and a future LLM layer restricted to timestamp-valid narrative evidence.
+          The study sits next to established work on option-implied tail risk, changing correlations in stress periods, PCA concentration, dynamic conditional correlation, and spillover networks. The contribution is therefore not the individual use of PCA or implied volatility. The contribution is the workflow: a cross-asset option-implied stress panel, event-rate tests before strategy tests, chronological validation, and an LLM extension restricted to timestamp-valid narrative evidence.
         </p>
         <table>
           <thead><tr><th>Area</th><th>Benchmark idea</th><th>Role in this project</th></tr></thead>
@@ -381,7 +382,7 @@
           </tbody>
         </table>
         <p class="note">
-          The daily AR/IVM panel is sufficient for a serious preliminary study because it spans the global financial crisis, euro-area stress, Covid, the 2022 inflation/rates shock, and more recent regimes. The intraday evidence is useful for method design, not final regime validation.
+          The daily AR/IVM panel is sufficient for the daily stress-regime evidence because it spans the global financial crisis, euro-area stress, Covid, the 2022 inflation/rates shock, and more recent regimes. The intraday evidence is useful for method design, not final regime validation.
         </p>
       </section>
 
@@ -426,7 +427,7 @@
       <section id="event-rates">
         <h2>7. Event-Rate Tests</h2>
         <p>
-          Before fitting return or exposure rules, the notebook tests whether stress indicators lift future drawdown event rates relative to unconditional base rates. This is a useful first filter because it answers whether the signal is aligned with the target event at all.
+          Before fitting return or exposure rules, the analysis tests whether stress indicators lift future drawdown event rates relative to unconditional base rates. This is a useful first filter because it answers whether the signal is aligned with the target event at all.
         </p>
         <div class="figure-pair">
           <figure>
@@ -455,7 +456,7 @@
           <img src="assets/figures/paper_holdout_model_results.png" alt="Holdout model benchmark results">
           <figcaption class="caption">
             <strong>Figure 7. Holdout probability-model results.</strong>
-            VIX term structure has stronger direct event-ranking performance than the first-pass AR/IVM model. The AR/IVM layer is more compelling as a stress state and overlay input than as a standalone probability model in this specification.
+            VIX term structure has stronger direct event-ranking performance than the current AR/IVM model. The AR/IVM layer is more compelling as a stress state and overlay input than as a standalone probability model in this specification.
           </figcaption>
         </figure>
         <table>
@@ -509,7 +510,7 @@
       <section id="pca">
         <h2>10. PCA and Intraday Evidence</h2>
         <p>
-          PCA is useful here as a compression and concentration tool. It helps measure whether cross-asset stress is becoming dominated by a small number of common factors. It should not be read as causal attribution without additional identification work.
+          PCA is useful here as a compression and concentration tool. It helps measure whether cross-asset stress is becoming dominated by a small number of common factors. It does not provide causal attribution without additional identification work.
         </p>
         <div class="figure-pair">
           <figure>
@@ -529,36 +530,85 @@
         </div>
       </section>
 
-      <section id="review">
-        <h2>11. Research Review</h2>
+      <section id="discussion">
+        <h2>11. Discussion</h2>
         <p>
-          A professional review would likely view the current paper as a promising measurement and portfolio-protection draft, not a finished production strategy. The empirical direction is credible because it starts from event definitions, uses chronological validation, and benchmarks against VIX term structure. The next version should harden the implementation and make the cross-asset attribution tests more formal.
+          The empirical results support the use of cross-asset option-implied stress as a drawdown-risk monitoring layer. The strongest evidence comes from direct stress measurement: equity-index implied volatility, ES downside skew, broad cross-asset volatility, and PCA concentration identify periods with higher forward SPX drawdown rates. The signal is less persuasive as a standalone daily probability forecast, where VIX term structure remains the stronger benchmark.
+        </p>
+        <p>
+          The portfolio result follows naturally from that evidence. The reference AR/IVM overlay does not attempt to forecast every down day. It reduces exposure only in high-stress states and is evaluated as a left-tail protection rule. The central economic trade-off is lower volatility and smaller drawdowns in exchange for some opportunity cost during market rebounds.
         </p>
         <table>
-          <thead><tr><th>Issue</th><th>Current treatment</th><th>Next refinement</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Empirical result</th>
+              <th>Economic interpretation</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td>Futures returns</td><td>AR/IVM selected futures prices are used for descriptive return correlations.</td><td>Add clean Bloomberg continuous-futures return series with explicit roll rules.</td></tr>
-            <tr><td>Strategy selection</td><td>Reference and sensitivity overlays are shown with shifted signals and simple costs.</td><td>Lock threshold, exposure, and hedge instruments before the next out-of-sample test.</td></tr>
-            <tr><td>PCA attribution</td><td>PCA absorption is a concentration diagnostic.</td><td>Compare against dynamic conditional correlation and spillover-network models.</td></tr>
-            <tr><td>Intraday evidence</td><td>The 140-day ES workbook demonstrates the workflow.</td><td>Extend history or use a vendor feed that supports longer intraday bars.</td></tr>
-            <tr><td>LLM layer</td><td>Deferred until structured market-data benchmarks are frozen.</td><td>Add timestamp-valid document retrieval, prompt hashes, model identity, and contamination checks.</td></tr>
+            <tr><td>Equity-index ATM implied volatility and ES downside-skew pressure lift forward SPX drawdown event rates.</td><td>Option markets embed forward-looking stress information before realized drawdowns are fully observed.</td></tr>
+            <tr><td>ES implied-volatility shocks co-move most with NQ and RTY, with secondary links to rates, FX, metals, energy, and agriculture.</td><td>Equity stress is primarily an equity-index volatility event, but the broader cross-asset panel adds macro regime context.</td></tr>
+            <tr><td>PCA absorption rises when a larger share of cross-asset movement is explained by common components.</td><td>PCA is useful as a stress-concentration diagnostic rather than as causal macro attribution.</td></tr>
+            <tr><td>VIX term structure remains the strongest direct probability benchmark in the 2020+ holdout.</td><td>AR/IVM is currently more useful as a state variable than as a replacement for established volatility benchmarks.</td></tr>
+            <tr><td>The reference AR/IVM overlay improves holdout Sharpe and maximum drawdown while preserving most SPX upside.</td><td>The signal has practical value as a protection overlay, especially when the objective is left-tail control rather than standalone return prediction.</td></tr>
           </tbody>
         </table>
+        <p>
+          The main external-validity questions are implementation and attribution questions. The relevant tests are clean continuous-futures return data, investable hedge instruments, richer dependence models, and longer intraday history.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Area</th>
+              <th>Validation test</th>
+              <th>Rationale</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Data</td><td>Roll-adjusted continuous futures returns</td><td>Tests realized cross-asset co-movement with explicit roll rules and avoids relying only on selected-maturity futures prices embedded in AR/IVM.</td></tr>
+            <tr><td>Implementation</td><td>Investable hedge set</td><td>Compares cash reduction with Treasury futures, SPX put spreads, VIX futures, and beta targeting under realistic transaction costs.</td></tr>
+            <tr><td>Method</td><td>Dynamic dependence benchmark</td><td>Benchmarks PCA absorption against dynamic conditional correlation, spillover-network, and rolling factor-loading stability measures.</td></tr>
+            <tr><td>Intraday</td><td>Longer 60-minute ES panel</td><td>Tests whether event-conditioned intraday driver maps are stable across crisis and non-crisis regimes rather than only the available 140-day sample.</td></tr>
+            <tr><td>Narrative</td><td>Timestamp-valid document synthesis</td><td>Tests whether news and macro context explain detected regimes once market-data signals are fixed, with document timestamps, prompt hashes, and contamination checks.</td></tr>
+          </tbody>
+        </table>
+        <p>
+          These tests define the boundary between the reported evidence and a deployable hedge program. The evidence supports stress detection and drawdown protection; instrument choice, causal attribution, and narrative synthesis require the additional validation described above.
+        </p>
+      </section>
+
+      <section id="conclusion">
+        <h2>12. Conclusion</h2>
+        <p>
+          Cross-asset option-implied data is a credible stress-regime layer for equity drawdown protection. It complements realized returns because it measures the market price of uncertainty, downside skew, and convexity demand before realized outcomes are fully known.
+        </p>
+        <p>
+          The empirical relationships are consistent across the paper. ES implied-volatility shocks co-move most with NQ and RTY, but also pick up rates, yen, gold, FX, and selected commodity stress. Equity-index ATM implied volatility and ES downside-skew pressure raise forward SPX drawdown event rates. PCA absorption is useful as a stress-concentration diagnostic, while VIX term structure remains the tougher direct forecasting benchmark.
+        </p>
+        <p>
+          The useful application is not pure return forecasting. The evidence supports an auditable protection layer that connects option-implied stress, event-conditioned PCA, point-in-time validation, and portfolio drawdown control.
+        </p>
       </section>
 
       <section id="appendix">
-        <h2>12. Appendix Exhibits and Reproduction Notes</h2>
+        <h2>Appendix. Reproducibility Notes</h2>
         <p>
-          The curated figure and table set is intentionally small enough to support both a short memo and a full LaTeX paper. Generated report files remain local, while these public exhibits can be referenced directly in drafts.
+          The research process separates confidential vendor inputs from public results. Raw workbooks, API credentials, parquet caches, and executed notebooks remain local. The public repository contains source code, the output-free paper notebook, aggregate tables, and a compact figure set.
         </p>
         <table>
-          <thead><tr><th>Artifact</th><th>Location</th><th>Use</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Object</th>
+              <th>Location</th>
+              <th>Handling</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td>Final source notebook</td><td><code>notebooks/cross_asset_stress_monitor_paper.ipynb</code></td><td>Main reproducible research notebook, committed without outputs.</td></tr>
-            <tr><td>Executed notebook</td><td><code>reports/cross_asset_stress_monitor_paper_executed.ipynb</code></td><td>Local output-bearing copy for review and figure inspection.</td></tr>
-            <tr><td>Executed HTML report</td><td><code>reports/cross_asset_stress_monitor_paper_executed.html</code></td><td>Local full notebook render.</td></tr>
-            <tr><td>Paper figures</td><td><code>paper_assets/figures</code></td><td>Essential PNGs for the short memo and full paper draft.</td></tr>
-            <tr><td>Paper tables</td><td><code>paper_assets/tables</code></td><td>Aggregate CSV outputs used in the paper draft.</td></tr>
+            <tr><td>Paper notebook</td><td><code>notebooks/cross_asset_stress_monitor_paper.ipynb</code></td><td>Source notebook committed without cell outputs.</td></tr>
+            <tr><td>Local executed report</td><td><code>reports/cross_asset_stress_monitor_paper_executed.ipynb</code></td><td>Output-bearing notebook used for inspection and figure generation; excluded from Git.</td></tr>
+            <tr><td>HTML execution</td><td><code>reports/cross_asset_stress_monitor_paper_executed.html</code></td><td>Local rendered research report; excluded from Git.</td></tr>
+            <tr><td>Figures</td><td><code>paper_assets/figures</code></td><td>Essential PNG exhibits for presentation and paper preparation.</td></tr>
+            <tr><td>Tables</td><td><code>paper_assets/tables</code></td><td>Aggregate CSV outputs; no raw vendor rows or credentials.</td></tr>
           </tbody>
         </table>
         <p class="small">
@@ -568,7 +618,7 @@
     </main>
 
     <footer>
-      Cross-Asset Stress Monitor is a public research scaffold. Licensed raw data, credentials, parquet caches, and executed reports are excluded from the repository.
+      Licensed raw data, credentials, parquet caches, and executed reports are excluded from the repository.
     </footer>
   </div>
 </body>

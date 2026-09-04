@@ -1,0 +1,6 @@
+empirical_result,interpretation
+Equity-index ATM implied volatility and ES downside-skew pressure lift forward SPX drawdown event rates.,Option markets embed forward-looking stress information before realized drawdowns are fully observed.
+"ES implied-volatility shocks co-move most with NQ and RTY, with secondary links to rates, FX, metals, energy, and agriculture.","Equity stress is primarily an equity-index volatility event, but the broader cross-asset panel adds macro regime context."
+PCA absorption rises when a larger share of cross-asset movement is explained by common components.,PCA is useful as a stress-concentration diagnostic rather than as causal macro attribution.
+VIX term structure remains the strongest direct probability benchmark in the 2020+ holdout.,AR/IVM is currently more useful as a state variable than as a replacement for established volatility benchmarks.
+The reference AR/IVM overlay improves holdout Sharpe and max drawdown while preserving most of the SPX upside.,"The signal has practical value as a protection overlay, especially when the objective is left-tail control rather than standalone return prediction."

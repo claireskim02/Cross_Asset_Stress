@@ -1,6 +1,6 @@
 # Cross-Asset Stress Monitor
 
-Cross-Asset Stress Monitor is a research work in progress on point-in-time detection and attribution of market stress. The current draft tests whether cross-asset futures-options implied volatility, skew, and PCA concentration can identify stress regimes early enough to improve a simple S&P 500 exposure rule.
+Cross-Asset Stress Monitor is a point-in-time empirical study of cross-asset stress detection and equity drawdown protection. The paper tests whether cross-asset futures-options implied volatility, skew, and PCA concentration can identify stress regimes early enough to improve a simple S&P 500 exposure rule.
 
 The project is framed as quantitative research on predefined stress regimes rather than open-ended extreme-event prediction. The empirical pipeline benchmarks VIX term structure, cross-asset option-implied stress, conditional event-rate lift, PCA absorption, and a 2020+ chronological holdout backtest. The intraday ES impulse workflow remains a case study for attributing large 60-minute moves after a stress regime has been detected.
 
@@ -10,7 +10,7 @@ Public raw data is not included. Bloomberg/Finaeon/Nasdaq workbooks, API credent
 
 - Public chartbook: docs/
 - Source page: [docs/index.html](docs/index.html)
-- Working paper notebook: [notebooks/cross_asset_stress_monitor_paper.ipynb](notebooks/cross_asset_stress_monitor_paper.ipynb)
+- Research paper notebook: [notebooks/cross_asset_stress_monitor_paper.ipynb](notebooks/cross_asset_stress_monitor_paper.ipynb)
 - Curated paper exhibits: [paper_assets/](paper_assets/)
 - Nasdaq Data Link setup: [docs/nasdaq_data_link.md](docs/nasdaq_data_link.md)
 - Literature and benchmark map: [docs/literature_review.md](docs/literature_review.md)
